@@ -1,6 +1,9 @@
 {
   "name": "addux-v1.1",
   "version": "0.1.0",
+  "engines":{
+    "node": "10.15.3"
+  },
   "private": true,
   "dependencies": {
     "@babel/core": "7.4.3",
@@ -49,7 +52,6 @@
     "react-router-dom": "^5.0.0",
     "react-rte": "^0.16.1",
     "react-stripe-elements": "^3.0.0",
-    "redux": "^4.0.1",
     "resolve": "1.10.0",
     "sass-loader": "7.1.0",
     "semver": "6.0.0",
@@ -64,7 +66,8 @@
   "scripts": {
     "start": "node scripts/start.js",
     "build": "node scripts/build.js",
-    "test": "node scripts/test.js"
+    "test": "node scripts/test.js",
+    "heroku-postbuild": "yarn run build"
   },
   "eslintConfig": {
     "extends": "react-app"
