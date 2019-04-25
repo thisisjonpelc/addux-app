@@ -1,0 +1,47 @@
+.notes{
+    display:flex;
+    flex-direction:column;
+    width:50rem;
+    position:absolute;
+    background-color:$white;
+    border-left: 1px solid $black;
+    top: 0;
+    right:-50rem;
+    height:100vh;
+    height: calc(var(--vh, 1vh) * 100);
+    z-index:200;
+    transition: right .3s ease-in-out;
+
+    border-right:1px solid $gray-darker;
+
+    @include respond(phone) {
+        width:100%;
+        right:-100%;
+    }
+
+    &__close{
+        display:block;
+        cursor: pointer;
+        height:3rem;
+        width:3rem;
+        fill:$gray-darker;
+
+        margin-top:1rem;
+        margin-right:1rem;
+        margin-bottom:-4rem;
+        margin-left:auto;
+
+        &:hover{
+            fill:$black;
+        }
+    }
+
+    &__editor{
+        margin-top:5rem;
+        overflow:auto;
+    }
+
+    &--active{
+        right:0px;
+    }
+}

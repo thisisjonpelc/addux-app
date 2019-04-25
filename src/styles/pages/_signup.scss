@@ -1,0 +1,86 @@
+.signup-page{
+
+    &__form{
+        background-color:#E5E3E2;
+        max-width:80rem;
+        margin:0 auto;
+        padding: 6rem 10rem;
+        padding-top:8rem;
+        box-shadow:0px 3px 5px 5px rgba(50, 50, 50, 0.3);
+        position:relative;
+
+        &>button{
+            margin-bottom:1rem;
+        }
+    }
+
+    &__back{
+        position: absolute;
+        top:2rem;
+        left:2rem;
+        font-size:1.6rem;
+        border:1px solid $gray-dark;
+        padding:1rem;
+        text-decoration: none;
+        color:$white;
+        background-color:#7898AD;
+        border-radius:.5rem;
+
+        &:visited{
+            color:$white;
+        }
+    
+        &:hover{
+            background-color:darken(#7898AD, 10%);
+            color:$white;
+        }
+    }
+
+    &__description{
+        font-size:2rem;
+        margin-bottom:1.5rem;
+    }
+
+    &__price{
+        font-size:4.5rem;
+        color:$black;
+
+        &--red{
+            color:#A90001;
+        }
+
+        &--strike{
+            color:black;
+            font-size:3.5rem;
+            position:relative;
+
+            &:before {
+                position: absolute;
+                content: "";
+                left: 0;
+                top: 50%;
+                right: 0;
+                border-top: 2px solid;
+                border-color: #A90001;
+              
+                -webkit-transform:rotate(-5deg);
+                -moz-transform:rotate(-5deg);
+                -ms-transform:rotate(-5deg);
+                -o-transform:rotate(-5deg);
+                transform:rotate(-5deg);
+              }
+        }
+    }
+
+    &__agreement{
+        align-items:center;
+        display:flex;
+        margin-bottom:1rem;
+        justify-content:center;
+    }
+
+    &__checkbox{
+        margin-right:1rem;
+    }
+
+}

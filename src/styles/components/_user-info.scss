@@ -1,0 +1,10 @@
+.user-panel{
+
+    margin:0 auto;
+    max-width:60rem;
+    overflow:auto;
+
+    &>div{
+        margin-bottom:2rem;
+    }
+}

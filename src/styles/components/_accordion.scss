@@ -1,0 +1,133 @@
+.accordion{
+    
+    margin:1.5rem 0;
+    overflow:auto;
+    padding: 0 1.8rem;
+
+    @include respond(tab-port) { // width < 1200?
+        overflow:visible;
+    }
+
+    &__item{
+
+        margin:1.5rem 0;
+        
+        input{
+            display:none;
+        
+            &:checked{
+                
+                & ~ .accordion__text{
+                    height:7rem;
+                    
+                    & > .accordion__status{
+                        height:5.5rem;
+                    }
+                
+                }
+
+                & ~ .accordion__label .accordion__icon{
+                    transform: rotate(180deg);
+                }
+            }
+        }
+    }
+
+    &__label{
+        display:flex;
+        font-size:1.4rem;
+        height:2.5rem;
+        width:100%;
+        background-color: $brand-primary;
+        color:$white;
+        align-items: center;
+        padding: 0 2rem;
+        border: 1px solid $gray-lighter;
+        cursor:pointer;
+    }
+
+    &__text{
+        height:0px;
+        overflow:hidden;
+        position:relative;
+        transition: height 0.3s ease-in-out;
+
+        &--show{
+            height:5rem;
+        }
+    }
+
+    &__icon{
+        margin-left:auto;
+        height:2rem;
+        width:2rem;
+        fill:$white;
+        transition:all .3s ease-in-out;
+    }
+
+    &__alert{
+        border:1px solid;
+        position: absolute;
+        width:100%;
+        bottom:0px;
+        font-size:1rem;
+        padding:.5rem;
+        text-align:center;
+        transition:all .3s ease-in-out;
+        opacity:1;
+
+        &--success{
+            background-color:#D3ECD9;
+            color: #396F45;
+            border-color:#C4E6CB;
+        }
+
+        &--failure{
+            background-color:#F8D6D9;
+            color:#A16267;
+            border-color:#F5C5CA;
+        }
+
+        &--hidden{
+            opacity:0;
+        }
+    }
+
+    &__status{
+        position:absolute;
+        width:1.5rem;
+        right:5px;
+        top:7px;
+        height:0;
+        transition:all .3s ease-in-out;
+        z-index: 2;
+    }
+
+    &__button{
+        height:1.5rem;
+        border-radius:50%;
+        background-color:$black;
+        cursor:pointer;
+
+        &--selected{
+            border:2px solid $black;
+        }
+
+        &:not(:last-child){
+            margin-bottom:.5rem;
+        }
+
+        &--red{
+            background-color:$status-red;
+        }
+
+        &--yellow{
+            background-color:$status-yellow;
+        }
+
+        &--green{
+            background-color:$status-green;
+        }
+    
+    }
+}

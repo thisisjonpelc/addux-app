@@ -1,0 +1,39 @@
+body{
+    font-family: "Roboto", sans-serif;
+    color:$gray-darker;
+    line-height:1.2;
+}
+
+.bold{
+    font-weight:700;
+}
+
+.underline{
+    text-decoration: underline;
+}
+
+.primary-heading{
+    text-align:center;
+    font-size:3rem;
+    margin-bottom:1.5rem;
+}
+
+.secondary-heading{
+    text-align:center;
+    font-size:2rem;
+    margin-bottom:1.5rem;
+}
+
+.app-link{
+    font-size:1.6rem;
+    color:$gray-dark;
+    text-decoration:none;
+
+    &:hover{
+        text-decoration:underline;
+    }
+
+    &--bold{
+        font-weight:700;
+    }
+}

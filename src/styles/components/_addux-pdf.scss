@@ -1,0 +1,51 @@
+.addux-pdf{
+    width:17in;
+    height:11in;
+    position:fixed;
+    top:-11in;
+    display:flex;
+    flex-direction:column;
+    padding:.3in;
+    //z-index: -3000;
+
+    &__header{
+        display:flex;
+        margin-bottom:.3in;
+        align-items:baseline;
+    }
+
+    &__logo{
+        width:10%;
+        //margin-bottom:.3in;
+        margin-left:.2in;
+    }
+
+    &__title{
+        font-size:30px;
+        margin-left:.5in;
+        font-weight:300;
+    }
+
+    &__columns{
+        width:100%;
+        display:flex;
+        flex-grow:1;
+    }
+
+    &__footer{
+        margin-top:.3in;
+        margin-left:auto;
+        width:20%;
+        font-family: 'Georgia', 'Times New Roman', Times, serif;
+        font-size:12px;
+    }
+
+    &--page{
+        position:static;
+    }
+}
+
+.html2canvas-container{
+    width:3000px !important;
+    height:3000px !important;
+}
