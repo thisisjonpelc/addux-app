@@ -22,5 +22,4 @@ export const saveAuthToken = store => next => action => {
     }
 
     return next(action);
-
 }

@@ -1,6 +1,6 @@
-import React from "react";
-import { connect } from "react-redux";
-import { Route, Redirect } from "react-router-dom";
+import React from 'react';
+import { connect } from 'react-redux';
+import { Route, Redirect } from 'react-router-dom';
 
 const PublicRoute = ({
     isAuthenticated,
@@ -10,7 +10,6 @@ const PublicRoute = ({
 
     return (
         <Route {...rest} component={(props) => {
-            
             return (
                 isAuthenticated ? (
                     <Redirect to="/" />
@@ -22,21 +21,6 @@ const PublicRoute = ({
     );
 
 };
-
-// const PublicRoute = (props) => {
-
-//     console.log(props);
-
-//     return (
-//         <Route {...rest} component={(props) => (
-//             props.isAuthenticated ? (
-//                 <Redirect to="/" />
-//             ) : (
-//                 <Component {...props} />
-//             )
-//         )} />
-//     );
-// }
 
 const mapStateToProps = (state) => {
     return {

@@ -1,16 +1,15 @@
-import React from "react";
-import {connect} from "react-redux";
+import React from 'react';
+import {connect} from 'react-redux';
 import axios from 'axios';
 
-import AdduxApp from "./AdduxApp";
-import SignUpPage from "./SignUpPage";
+import AdduxApp from './AdduxApp';
+import SignUpPage from './SignUpPage';
 import SalesPage from './SalesPage';
-import LoginPage from './HomePage';
+import LoginPage from './LoginPage';
 
 const AdduxWrapper = (props) => {
         return props.isAuthenticated ? (<AdduxApp />) : (<LoginPage />);
 }
-
 
 const mapStateToProps = (state) => {
     return {

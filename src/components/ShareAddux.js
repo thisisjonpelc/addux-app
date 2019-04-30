@@ -43,7 +43,7 @@ class ShareAddux extends React.Component{
                 }
             });
         })
-        .catch((e) => {
+        .catch((err) => {
 
         });
     }
