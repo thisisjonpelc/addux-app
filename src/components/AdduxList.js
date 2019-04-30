@@ -1,22 +1,33 @@
 import React from 'react';
 import {connect} from "react-redux";
 
-import {setActive} from './../actions/addux';
+import {setActive} from './../actions/active';
 
 import AdduxListItem from './AdduxListItem';
 
 const AdduxList = (props) => {
 
     const AdduxItems = [];
-    const clickMethods = [];
 
     for(let key in props.addux){
-
-
-
         if(key !== 'active'){
             AdduxItems.push(
-                <AdduxListItem key={`${key}_${props.addux[key].name}`} id={key} token={props.token} changeListActive={props.changeListActive} active={props.addux.active === key} {...props.addux[key]} onClick={() => {if(props.addux.active !== key){props.setActive(key); props.changeListActive();}}}/>
+                <AdduxListItem 
+                    key={`${key}_${props.addux[key].name}`} 
+                    id={key} 
+                    token={props.token} 
+                    changeListActive={props.changeListActive} 
+                    active={props.active === key} 
+                    {...props.addux[key]} 
+                    onClick={
+                        () => {
+                            if(props.active !== key){
+                                props.setActive(key); 
+                                props.changeListActive();
+                            }
+                        }
+                    }
+                />
             );
         }
     }
@@ -47,14 +58,9 @@ const AdduxList = (props) => {
 const mapStateToProps = (state) => {
     return {
         addux:state.addux,
-        token:state.auth.token
+        token:state.auth.token,
+        active:state.active
     };
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setActive: (id) => (dispatch(setActive(id)))
-    }        
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdduxList);
+export default connect(mapStateToProps, {setActive})(AdduxList);

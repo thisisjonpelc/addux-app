@@ -1,13 +1,12 @@
 import React from "react";
 import { connect } from 'react-redux';
-import {debounce} from 'throttle-debounce';
+import { debounce } from 'throttle-debounce';
 import axios from 'axios';
 
-import {history} from './../routers/AppRouter';
+import { history } from './../routers/AppRouter';
 
 import { logout } from './../actions/auth';
 import { editAddux } from './../actions/addux';
-import { unsubscribe } from './../actions/subscription';
 
 class Header extends React.Component {
 
@@ -25,7 +24,7 @@ class Header extends React.Component {
 
     saveName = debounce(1000, (name) => {
 
-        const updates={
+        const updates = {
             name
         };
 
@@ -57,8 +56,10 @@ class Header extends React.Component {
     onNameChange = (e) => {
         const name = e.target.value;
 
-        this.setState({name});
-        this.saveName(name);
+        //if(!this.props.sharePage){
+            this.setState({ name });
+            this.saveName(name);
+        //}
     }
 
     onLogoutClick = () => {
@@ -67,12 +68,12 @@ class Header extends React.Component {
 
     render() {
         return (
-            <div>
-                <header className="header">
-                    <img src="img/addux-logo.png" className="logo" />
+            <header className="header">
+                <img src="img/addux-logo.png" className="logo" />
 
+                {!this.props.sharePage
+                    &&
                     <nav className="app-nav">
-
                         {
                             this.props.isAdmin
                             &&
@@ -110,9 +111,23 @@ class Header extends React.Component {
                             </svg>
                         </div>
                     </nav>
+                }
 
-                    <input onClick={this.onNameClick} onChange={this.onNameChange} className='info-box__title' placeholder='Name your addux' type='text' value={this.state.name}/>
+                <div className='info-box'>
+                    <input 
+                        onClick={this.onNameClick} 
+                        onChange={this.onNameChange} 
+                        className='info-box__title' 
+                        placeholder='Name your addux' 
+                        type='text' 
+                        value={this.state.name} 
+                        readOnly={this.props.sharePage}
+                    />
+                </div>
+                
 
+                {!this.props.sharePage
+                    &&
                     <div onClick={this.onLogoutClick} className='logout-button'>
                         <svg className="logout-button__icon">
                             <use xlinkHref="img/sprite.svg#icon-sign-out"></use>
@@ -121,47 +136,19 @@ class Header extends React.Component {
                             Logout
                             </p>
                     </div>
+                }
 
-                </header>
+            </header>
 
-            </div>
         );
     }
-
-    // {!this.props.empty &&
-
-    //     <div className="info-box">
-
-    //         {(
-    //             this.state.editName
-    //                 ?
-    //                 <NameEditForm name={this.props.activeAddux.name} closeEdit={this.closeEdit} activeAddux={this.props.activeAddux} token={this.props.token} />
-    //                 :
-    //                 <h1 onClick={this.onNameClick} className="info-box__title">{this.props.activeAddux.name}</h1>
-    //         )}
-
-
-    //     </div>
-
-    // }
-
 }
 
 const mapStateToProps = (state) => {
-
     return {
-        activeAddux: state.addux[state.addux.active],
-        isAdmin: state.auth.isAdmin,
-        token: state.auth.token
+        activeAddux: state.addux[state.active],
+        isAdmin: state.auth.isAdmin
     }
 };
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        logout: () => dispatch(logout()),
-        editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-        unsubscribe: () => dispatch(unsubscribe())
-    }
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(Header);
+export default connect(mapStateToProps, { logout, editAddux })(Header);

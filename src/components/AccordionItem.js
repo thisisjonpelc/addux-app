@@ -8,7 +8,7 @@ import { history } from './../routers/AppRouter';
 import { labels } from '../constants/constants';
 
 import { editAddux } from './../actions/addux';
-import { unsubscribe } from './../actions/subscription';
+//import { unsubscribe } from './../actions/subscription';
 import { logout } from './../actions/auth';
 
 class AccordionItem extends React.Component {
@@ -24,9 +24,9 @@ class AccordionItem extends React.Component {
     }
 
     onCheckChange = (e) => {
-        if (true) {
-            this.props.onCheckChange(Number(e.target.id.slice(-1)), e.target);
-        }
+        // if (true) {
+        //     this.props.onCheckChange(Number(e.target.id.slice(-1)), e.target);
+        // }
     }
 
     saveText = debounce(1000, (text) => {
@@ -99,8 +99,8 @@ class AccordionItem extends React.Component {
 
     onStatusClick = (statusSelected) => {
 
-        this.setState(() => ({statusSelected}));
-        
+        this.setState(() => ({ statusSelected }));
+
         const updates = {};
 
         updates[`${this.props.category}_${this.props.number}_status`] = statusSelected;
@@ -114,91 +114,75 @@ class AccordionItem extends React.Component {
                 }
             }
         )
-        .then((response) => {
-            this.props.editAddux(this.props.activeAddux._id, updates);
+            .then((response) => {
+                this.props.editAddux(this.props.activeAddux._id, updates);
 
-            this.setState(() => {
-                return {
-                    showSuccess: true
-                };
-            });
-
-            setTimeout(() => {
                 this.setState(() => {
                     return {
-                        showSuccess: false
-                    }
-                })
-            },
-                1000);
-
-        })
-        .catch((e) => {
-            if (e.response.status === 402) {
-                this.props.unsubscribe();
-                history.push('/subscribe');
-            }
-            else if (e.response.status === 401) {
-                this.props.logout();
-                history.push('/login');
-            }
-            else {
-                this.setState(() => {
-                    return {
-                        showFailure: true
+                        showSuccess: true
                     };
                 });
 
                 setTimeout(() => {
                     this.setState(() => {
                         return {
-                            showFailure: false
+                            showSuccess: false
                         }
                     })
                 },
                     1000);
-            }
-        });
-    
-    } 
 
-    // onRedClick = () => {
-    //     this.setState(() => ({statusSelected: 'red'}));
-    // }
+            })
+            .catch((e) => {
+                if (e.response.status === 402) {
+                    this.props.unsubscribe();
+                    history.push('/subscribe');
+                }
+                else if (e.response.status === 401) {
+                    this.props.logout();
+                    history.push('/login');
+                }
+                else {
+                    this.setState(() => {
+                        return {
+                            showFailure: true
+                        };
+                    });
+
+                    setTimeout(() => {
+                        this.setState(() => {
+                            return {
+                                showFailure: false
+                            }
+                        })
+                    },
+                        1000);
+                }
+            });
+
+    }
 
     render() {
         return (
             <div className='accordion__item'>
-                {
-                    this.props.linked
-                        ?
-                        (
-                            <input
-                                id={`${this.props.category}-${this.props.number}`}
-                                type='checkbox'
-                                onChange={this.onCheckChange}
-                            //checked={this.props.openFields[this.props.number-1]}
-                            />
-                        )
-                        :
-                        (
-                            <input
-                                id={`${this.props.category}-${this.props.number}`}
-                                type='checkbox'
-                                onChange={this.onCheckChange}
-                            />
-                        )
-                }
+                <input
+                    id={`${this.props.category}-${this.props.number}`}
+                    type='checkbox'
+                    onChange={this.onCheckChange}
+                />
 
-
-                <label className='accordion__label'
+                <label 
+                    className='accordion__label'
                     htmlFor={`${this.props.category}-${this.props.number}`}
                 >
-                    <span>{`${labels[this.props.category]} ${this.props.number}`}</span>
+                    <span>
+                        {`${labels[this.props.category]} ${this.props.number}`}
+                    </span>
                     <svg className='accordion__icon'>
                         <use xlinkHref='img/sprite.svg#icon-chevron-down-solid'></use>
                     </svg>
                 </label>
+                
                 <div className='accordion__text'>
                     <textarea
                         maxLength='100'
@@ -211,9 +195,9 @@ class AccordionItem extends React.Component {
                         this.props.category === 'progress'
                         &&
                         (<div className='accordion__status'>
-                            <div onClick={() => {this.onStatusClick('red')}} className={`accordion__button accordion__button--red ${this.state.statusSelected === 'red' ? 'accordion__button--selected':''}`} />
-                            <div onClick={() => {this.onStatusClick('yellow')}} className={`accordion__button accordion__button--yellow ${this.state.statusSelected === 'yellow' ? 'accordion__button--selected':''}` } />
-                            <div onClick={() => {this.onStatusClick('green')}} className={`accordion__button accordion__button--green ${this.state.statusSelected === 'green' ? 'accordion__button--selected':''}`} />
+                            <div onClick={() => { this.onStatusClick('red') }} className={`accordion__button accordion__button--red ${this.state.statusSelected === 'red' ? 'accordion__button--selected' : ''}`} />
+                            <div onClick={() => { this.onStatusClick('yellow') }} className={`accordion__button accordion__button--yellow ${this.state.statusSelected === 'yellow' ? 'accordion__button--selected' : ''}`} />
+                            <div onClick={() => { this.onStatusClick('green') }} className={`accordion__button accordion__button--green ${this.state.statusSelected === 'green' ? 'accordion__button--selected' : ''}`} />
                         </div>)
                     }
                     <div className={`accordion__alert accordion__alert--success ${this.state.showSuccess ? '' : 'accordion__alert--hidden'}`}>Input saved</div>
@@ -233,14 +217,14 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+// const mapDispatchToProps = (dispatch) => {
 
-    return {
-        editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-        unsubscribe: () => dispatch(unsubscribe()),
-        logout: () => dispatch(logout())
-    }
+//     return {
+//         editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
+//         unsubscribe: () => dispatch(unsubscribe()),
+//         logout: () => dispatch(logout())
+//     }
 
-}
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(AccordionItem);
+export default connect(mapStateToProps, { editAddux, logout })(AccordionItem);

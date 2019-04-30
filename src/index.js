@@ -10,6 +10,8 @@ import {login} from './actions/auth';
 
 import configureStore from "./store/configureStore";
 
+import "./styles/main.scss";
+
 const store = configureStore();
 const tokenExists = (typeof localStorage !== 'undefined') && (localStorage.getItem('AUTH_TOKEN') !== null);
 
@@ -26,10 +28,14 @@ const renderApp = () => {
 }
 
 if(tokenExists){
+
+    console.log('Token exists!');
+
     ReactDOM.render(<LoadingPage />, document.getElementById('root'));    
 
     try{
         const token = localStorage.getItem('AUTH_TOKEN');
+        console.log('Token is', token);
         axios.post('/users/login', 
             {},
             {
@@ -39,7 +45,12 @@ if(tokenExists){
         })
         .then((response) => {
             console.log('Logged in!');
-            store.dispatch(login(response.data));
+            store.dispatch(login(
+                {
+                    ...response.data, 
+                    token:response.headers['x-auth']
+                }
+            ));
 
             //RENDER APP
 
@@ -47,7 +58,7 @@ if(tokenExists){
         })
         .catch((err) => {
             //TODO: Dispatch Error Event
-
+            console.log('Login failed! Token Expired. Rendering App!');
             renderApp();
         });
     }

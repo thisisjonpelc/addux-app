@@ -20,6 +20,8 @@ class ColumnContent extends React.Component{
     render() {
         const prompt = this.props.walkthrough[`${this.props.category}_prompt`];
         
+        console.log(accordionSize[this.props.category]);
+
         return (
             <div className="column__content">
                 <p className="column__question">
@@ -29,10 +31,7 @@ class ColumnContent extends React.Component{
                 {accordionSize[this.props.category] > 1 
                     ? 
                     (<Accordion 
-                        linked={this.props.linked}
                         onCheckChange={this.props.onCheckChange} 
-                        openFields={this.props.openFields} 
-                        activeAddux={this.props.activeAddux} 
                         category={this.props.category} 
                         readOnly={this.props.readOnly} 
                     />) 
@@ -41,11 +40,8 @@ class ColumnContent extends React.Component{
                         <p className='objective-block__label'>Objective</p>
                         <ObjectiveTextArea 
                             key={`${this.props.activeAddux._id}-obj`} 
-                            initialText={this.state.text} 
-                            category={this.props.category}
-                            activeAddux={this.props.activeAddux} 
-                            id={this.props.activeAddux._id} 
-                            readOnly={this.props.readOnly}/>
+                            readOnly={this.props.readOnly}
+                        />
                     </div>)
                 }
                 {
@@ -65,9 +61,9 @@ class ColumnContent extends React.Component{
 
 const mapStateToProps = (state, ownProps) => {
     return {
-        //activeAddux: state.addux[state.addux.active],
-        //prompt: state.walkthrough[`${ownProps.category}_prompt`],
-        //active: state.addux.active
+        walkthrough: state.walkthrough,
+        activeAddux: state.addux[state.active],
+        active:state.active
     }
 }
 

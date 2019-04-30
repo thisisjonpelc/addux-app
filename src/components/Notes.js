@@ -7,7 +7,7 @@ import axios from 'axios';
 import {history} from './../routers/AppRouter';
 
 import {editAddux} from './../actions/addux';
-import {unsubscribe} from './../actions/subscription';
+//import {unsubscribe} from './../actions/subscription';
 import {logout} from './../actions/auth';
 
 class Notes extends React.Component{
@@ -89,7 +89,7 @@ const mapDispatchToProps = (dispatch) => {
 
     return {
         editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-        unsubscribe: () => dispatch(unsubscribe()),
+        //unsubscribe: () => dispatch(unsubscribe()),
         logout: () => dispatch(logout())
     }
     

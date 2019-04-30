@@ -3,7 +3,7 @@ import {connect} from 'react-redux';
 import {CopyToClipboard} from 'react-copy-to-clipboard';
 import axios from 'axios';
 
-import {unsubscribe} from './../actions/subscription';
+//import {unsubscribe} from './../actions/subscription';
 import {logout} from './../actions/auth';
 
 class SharePage extends React.Component{
@@ -17,46 +17,46 @@ class SharePage extends React.Component{
         }
     }
 
-    onPdfClick = () => {
+    // onPdfClick = () => {
 
-        //this.setState(() => ({creatingPdf:true}));
+    //     //this.setState(() => ({creatingPdf:true}));
 
-        axios.post(
-            '/addux/csv',
-            {
-                firstName:this.props.auth.firstName,
-                lastName:this.props.auth.lastName,
-                email:this.props.auth.email,
-                name:this.props.activeAddux.name,
-                activeAddux:this.props.activeAddux._id
-            },
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            }
-        )
-        .then((response) => {
-            alert('Your PDF is being created and will be delivered to your email.');
-            //this.setState(() => ({creatingPdf: false}));
-        })
-        .catch((err) => {
+    //     axios.post(
+    //         '/addux/csv',
+    //         {
+    //             firstName:this.props.auth.firstName,
+    //             lastName:this.props.auth.lastName,
+    //             email:this.props.auth.email,
+    //             name:this.props.activeAddux.name,
+    //             activeAddux:this.props.activeAddux._id
+    //         },
+    //         {
+    //             headers: {
+    //                 'x-auth': this.props.token
+    //             }
+    //         }
+    //     )
+    //     .then((response) => {
+    //         alert('Your PDF is being created and will be delivered to your email.');
+    //         //this.setState(() => ({creatingPdf: false}));
+    //     })
+    //     .catch((err) => {
 
-            if(err.response.status === 402){
-                this.props.unsubscribe();
-                history.push('/subscribe');
-            }
-            else if(err.response.status === 401){
-                this.props.logout();
-                history.push('/login');
-            }
-            else{
-                alert('Unable to request PDF at this time');
-                //this.setState(() => ({creatingPdf:false}));
-            }
-        });
+    //         if(err.response.status === 402){
+    //             this.props.unsubscribe();
+    //             history.push('/subscribe');
+    //         }
+    //         else if(err.response.status === 401){
+    //             this.props.logout();
+    //             history.push('/login');
+    //         }
+    //         else{
+    //             alert('Unable to request PDF at this time');
+    //             //this.setState(() => ({creatingPdf:false}));
+    //         }
+    //     });
 
-    }
+    // }
 
     //PDF button to remove later
     //<button className='btn btn--width-200 share-page__pdf-buton' onClick={this.onPdfClick} disabled={this.state.creatingPdf}>{this.state.creatingPdf ? (<img className='btn__loading' src='img/loading.gif' />) : ('Download as PDF')}</button>
@@ -103,7 +103,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        unsubscribe: () => dispatch(unsubscribe()),
+        //unsubscribe: () => dispatch(unsubscribe()),
         logout: () => dispatch(logout())
     }
 }

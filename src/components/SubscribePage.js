@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import {history} from './../routers/AppRouter';
 
-import {subscribe, unsubscribe} from './../actions/subscription';
+//import {subscribe, unsubscribe} from './../actions/subscription';
 import {logout} from './../actions/auth';
 
 import CardForm from './CardForm';
@@ -97,12 +97,12 @@ const mapStateToProps = (state) => {
     };
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        subscribe: () => dispatch(subscribe()),
-        unsubscribe: () => dispatch(unsubscribe()),
-        logout: () => dispatch(logout())
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         subscribe: () => dispatch(subscribe()),
+//         unsubscribe: () => dispatch(unsubscribe()),
+//         logout: () => dispatch(logout())
+//     }
+// }
 
-export default connect(mapStateToProps, mapDispatchToProps)(SubscribePage);
+export default connect(mapStateToProps, {})(SubscribePage);

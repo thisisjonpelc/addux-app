@@ -7,7 +7,6 @@ import axios from 'axios';
 import { history } from './../routers/AppRouter';
 
 import { editAddux } from './../actions/addux';
-import { unsubscribe } from './../actions/subscription';
 import { logout } from './../actions/auth';
 
 class ObjectiveTextArea extends React.Component {
@@ -15,8 +14,10 @@ class ObjectiveTextArea extends React.Component {
     constructor(props) {
         super(props);
 
+        console.log(props);
+
         this.state = {
-            text: this.props.activeAddux[this.props.category],
+            text: this.props.activeAddux['objective'],
             showSuccess: false,
             showFailure: false
         }
@@ -32,10 +33,10 @@ class ObjectiveTextArea extends React.Component {
 
         const updates = {};
 
-        updates[`${this.props.category}`] = text;
+        updates['objective'] = text;
 
         axios.patch(
-            `/addux/${this.props.id}`,
+            `/addux/${this.props.activeAddux._id}`,
             updates,
             {
                 headers: {
@@ -63,12 +64,12 @@ class ObjectiveTextArea extends React.Component {
                 this.props.editAddux(this.props.activeAddux._id, updates);
 
             })
-            .catch((e) => {
-                if (e.response.status === 402) {
-                    this.props.unsubscribe();
+            .catch((err) => {
+                if (err.response.status === 402) {
+                    //this.props.unsubscribe();
                     history.push('/subscribe');
                 }
-                else if (e.response.status === 401) {
+                else if (err.response.status === 401) {
                     this.props.logout();
                     history.push('/login');
                 }
@@ -111,16 +112,8 @@ class ObjectiveTextArea extends React.Component {
 const mapStateToProps = (state) => {
     return {
         token: state.auth.token,
-        //activeAddux: state.addux[state.addux.active]
+        activeAddux: state.addux[state.active]
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-        unsubscribe: () => dispatch(unsubscribe()),
-        logout: () => dispatch(logout())
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(ObjectiveTextArea);
+export default connect(mapStateToProps, {editAddux, logout})(ObjectiveTextArea);

@@ -8,7 +8,7 @@ import SalesPage from './SalesPage';
 import LoginPage from './LoginPage';
 
 const AdduxWrapper = (props) => {
-        return props.isAuthenticated ? (<AdduxApp />) : (<LoginPage />);
+        return props.isAuthenticated ? (<AdduxApp sharePage={false} />) : (<LoginPage />);
 }
 
 const mapStateToProps = (state) => {

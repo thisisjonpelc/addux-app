@@ -6,7 +6,7 @@ import axios from 'axios';
 import {history} from './../routers/AppRouter';
 
 import {deleteAddux, editAddux} from './../actions/addux';
-import {unsubscribe} from './../actions/subscription';
+//import {unsubscribe} from './../actions/subscription';
 import {logout} from './../actions/auth';
 
 class AdduxListItem extends React.Component{
@@ -24,23 +24,23 @@ class AdduxListItem extends React.Component{
     onDeleteClick = (e) => {
         e.stopPropagation();
 
-        if(confirm(`Are you sure you want to delete ${this.props.name}?`)){
-            axios.delete(`/addux/${this.props.id}`,
-                {headers: {'x-auth': this.props.token}})
-            .then((response) => {
-                this.props.deleteAddux(this.props.id);
-            })
-            .catch((err) => {
-                if(err.response.status === 402){
-                    this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else if(err.response.status === 401){
-                    this.props.logout();
-                    history.push('/login');
-                }
-            });
-        }
+        // if(confirm(`Are you sure you want to delete ${this.props.name}?`)){
+        //     axios.delete(`/addux/${this.props.id}`,
+        //         {headers: {'x-auth': this.props.token}})
+        //     .then((response) => {
+        //         this.props.deleteAddux(this.props.id);
+        //     })
+        //     .catch((err) => {
+        //         if(err.response.status === 402){
+        //             this.props.unsubscribe();
+        //             history.push('/subscribe');
+        //         }
+        //         else if(err.response.status === 401){
+        //             this.props.logout();
+        //             history.push('/login');
+        //         }
+        //     });
+        // }
     }
 
     onEditClick = (e) => {
@@ -128,13 +128,13 @@ class AdduxListItem extends React.Component{
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-        deleteAddux: (id) => dispatch(deleteAddux(id)),
-        unsubscribe: () => dispatch(unsubscribe()),
-        logout: () => dispatch(logout())
-    }
-}
+// const mapDispatchToProps = (dispatch) => {
+//     return {
+//         editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
+//         deleteAddux: (id) => dispatch(deleteAddux(id)),
+//         unsubscribe: () => dispatch(unsubscribe()),
+//         logout: () => dispatch(logout())
+//     }
+// }
 
-export default connect(null, mapDispatchToProps)(AdduxListItem);
+export default connect(null)(AdduxListItem);

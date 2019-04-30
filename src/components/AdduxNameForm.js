@@ -5,7 +5,7 @@ import axios from 'axios';
 import {history} from './../routers/AppRouter';
 
 import {addAddux} from './../actions/addux';
-import {unsubscribe} from './../actions/subscription';
+//import {unsubscribe} from './../actions/subscription';
 import {logout} from './../actions/auth';
 
 class AdduxNameForm extends React.Component{
@@ -96,7 +96,7 @@ class AdduxNameForm extends React.Component{
 const mapDispatchToProps = (dispatch) => {
     return {
         addAddux: (addux) => dispatch(addAddux(addux)),
-        unsubscribe: () => dispatch(unsubscribe()),
+        //unsubscribe: () => dispatch(unsubscribe()),
         logout: () => dispatch(logout())
     }
 }

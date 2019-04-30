@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from 'react-redux';
 import $ from 'jquery';
 
 import AppOverlay from './AppOverlay';
@@ -65,5 +66,11 @@ class ColumnHeader extends React.Component{
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        walkthrough: state.walkthrough
+    }
+}
 
-export default ColumnHeader;
+
+export default connect(mapStateToProps)(ColumnHeader);

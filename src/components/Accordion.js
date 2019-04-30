@@ -1,4 +1,5 @@
 import React from "react";
+import {connect} from 'react-redux';
 
 import AccordionItem from "./AccordionItem";
 
@@ -24,20 +25,20 @@ class Accordion extends React.Component{
 
     render() {
 
+        //console.log(accordionSize['this.props.c'])
+
         let result = []        
 
-        for(let i = 1; i<this.props.size+1; i++){
+        for(let i = 1; i <= accordionSize[this.props.category]; i++){
             result[i] = <AccordionItem 
-                            linked={this.props.linked}
                             key={`${this.props.activeAddux._id}-${i}`} 
                             category={this.props.category} 
                             number={i}
-                            openFields={this.props.openFields}  
                             onCheckChange={this.props.onCheckChange} 
                             onLabelClick={this.onLabelClick} 
                             readOnly={this.props.readOnly}
                             activeAddux={this.props.activeAddux}
-                            />
+                        />
         }
 
         return (
@@ -50,4 +51,10 @@ class Accordion extends React.Component{
 
 }
 
-export default Accordion;
+const mapStateToProps = (state) => {
+    return {
+        activeAddux: state.addux[state.active]
+    }
+}
+
+export default connect(mapStateToProps)(Accordion);

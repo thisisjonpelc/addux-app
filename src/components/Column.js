@@ -3,10 +3,18 @@ import React from "react";
 import ColumnHeader from "./ColumnHeader";
 import ColumnContent from "./ColumnContent";
 
-const Column = ({category, readOnly, showComments, activeAddux, walkthrough, openFields, onCheckChange, linked}) => (
+const Column = ({category, sharePage, showComments}) => (
     <div className="column">
-        <ColumnHeader category={category} walkthrough={walkthrough} showVideos={!readOnly}/>
-        <ColumnContent linked={linked} onCheckChange={onCheckChange} openFields={openFields} category={category} readOnly={readOnly} showComments={showComments} walkthrough={walkthrough} activeAddux={activeAddux}/>
+        <ColumnHeader 
+            category={category} 
+            showVideos={!sharePage}
+        />
+
+        <ColumnContent    
+            category={category} 
+            readOnly={sharePage} 
+            showComments={showComments} 
+        />
     </div>
 );
 
