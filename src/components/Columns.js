@@ -1,10 +1,12 @@
 import React from "react";
 import { connect } from 'react-redux';
-//import $ from 'jquery';
+import $ from 'jquery';
+import {ScrollTo} from 'react-scroll-to';
 
 import Column from "./Column";
 import EmptyPage from './EmptyPage';
 import ObjectiveTextArea from './ObjectiveTextArea';
+import ScrollArrow from './ScrollArrow';
 import ColumnHeader from './ColumnHeader';
 import CommentsForm from './CommentsForm';
 import Accordion from './Accordion';
@@ -12,6 +14,8 @@ import Accordion from './Accordion';
 class Columns extends React.Component {
   constructor(props) {
     super(props);
+
+    this.columnsRef = React.createRef();
 
     this.state = {
       isCol1Syncing: false,
@@ -47,7 +51,7 @@ class Columns extends React.Component {
         if (checkbox.checked === true) {
           setTimeout(() => {
             accordions[i].childNodes[num - 1].childNodes[2].firstChild.focus();
-          },400)
+          }, 400)
           //accordions[i].childNodes[num - 1].childNodes[2].firstChild.focus();
         }
       }
@@ -197,6 +201,13 @@ class Columns extends React.Component {
     });
   }
 
+  scrollColumns = (scrollTo, direction) => {
+    const scrollPosition = this.columnsRef.current.scrollLeft;
+    const distance = direction ==='left' ? -250 : 250;
+
+    scrollTo({ref: this.columnsRef, x:scrollPosition + distance, smooth:true});
+  }
+
   render() {
 
     return (
@@ -208,21 +219,23 @@ class Columns extends React.Component {
         )
         :
         (
-          <main className='main-content'>
-            
-            <Column 
+          <main className='main-content' ref={this.columnsRef}>
+            {!this.props.empty && <ScrollArrow direction={'left'} onArrowClick={this.scrollColumns} />}
+            {!this.props.empty && <ScrollArrow direction={'right'} onArrowClick={this.scrollColumns} />}
+
+            <Column
               category='objective'
               sharePage={this.props.sharePage}
               showComments={this.props.showComments}
             />
 
-          <Column
-            category='goals'
-            sharePage={this.props.sharePage}
-            showComments={this.props.showComments}
-          />
+            <Column
+              category='goals'
+              sharePage={this.props.sharePage}
+              showComments={this.props.showComments}
+            />
 
-            <div style={{display:'flex'}}>
+            <div style={{ display: 'flex' }}>
               <div className='column'>
 
                 <ColumnHeader

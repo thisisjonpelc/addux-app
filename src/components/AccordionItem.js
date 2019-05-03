@@ -210,21 +210,9 @@ class AccordionItem extends React.Component {
 
 const mapStateToProps = (state) => {
 
-
     return {
         token: state.auth.token
-        //activeAddux: state.addux[state.addux.active]
     }
 }
-
-// const mapDispatchToProps = (dispatch) => {
-
-//     return {
-//         editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-//         unsubscribe: () => dispatch(unsubscribe()),
-//         logout: () => dispatch(logout())
-//     }
-
-// }
 
 export default connect(mapStateToProps, { editAddux, logout })(AccordionItem);

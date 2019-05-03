@@ -102,16 +102,6 @@ class AdduxApp extends React.Component {
         this.setState({ createModal: false, editModal: false })
     }
 
-    scrollLeft = () => {
-        const mainContent = $('.main-content');
-        mainContent.animate({ scrollLeft: mainContent.scrollLeft() - 250 }, 500);
-    }
-
-    scrollRight = () => {
-        const mainContent = $('.main-content');
-        mainContent.animate({ scrollLeft: mainContent.scrollLeft() + 250 }, 500);
-    }
-
     createNewModal = (e) => {
         e.preventDefault();
         const name = e.target.children[0].children[0].value;
@@ -204,8 +194,7 @@ class AdduxApp extends React.Component {
         else if (this.state.dataStatus === "RECIEVED") {
             return (
                 <div className="app">
-                    {!this.props.empty && <ScrollArrow direction={'left'} onArrowClick={this.scrollLeft} />}
-                    {!this.props.empty && <ScrollArrow direction={'right'} onArrowClick={this.scrollRight} />}
+                    
                     
                     {!this.props.sharePage 
                         && 

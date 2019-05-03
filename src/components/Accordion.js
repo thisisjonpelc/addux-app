@@ -25,8 +25,6 @@ class Accordion extends React.Component{
 
     render() {
 
-        //console.log(accordionSize['this.props.c'])
-
         let result = []        
 
         for(let i = 1; i <= accordionSize[this.props.category]; i++){

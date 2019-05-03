@@ -18,6 +18,7 @@
         height:100%;
         border:1px solid #ebe8e2;
         padding-top:1.5rem;
+        overflow:hidden;
         
         @include respond(tab-port) { // width < 1200?
             overflow:auto;
