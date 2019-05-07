@@ -5,7 +5,7 @@ const adduxReducerDefaultState = {};
 
 const adduxReducer = (state = adduxReducerDefaultState, action) => {
     
-    let newState;
+    let newState, id;
 
     switch(action.type){
 
@@ -19,7 +19,7 @@ const adduxReducer = (state = adduxReducerDefaultState, action) => {
 
             return newState;
         case EDIT_ADDUX:
-           let id = action.activeAddux;
+           id = action.activeAddux;
            let newAddux = {
                ...state[id],
                ...action.updates

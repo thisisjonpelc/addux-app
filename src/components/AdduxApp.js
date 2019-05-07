@@ -261,13 +261,6 @@ const mapStateToProps = (state) => {
     }
 };
 
-// const mapDispatchToProps = (dispatch) => ({
-//     initializeApp: (adduxes, walkthrough) => dispatch(initializeApp(adduxes, walkthrough)),
-//     unsubscribe: () => dispatch(unsubscribe()),
-//     addAddux: (addux) => dispatch(addAddux(addux)),
-//     logout: () => dispatch(logout())
-// });
-
 export default connect(mapStateToProps, { initializeApp, addAddux, logout })(AdduxApp);
 
 
