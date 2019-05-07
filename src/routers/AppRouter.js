@@ -7,7 +7,6 @@ import AdduxWrapper from "../components/AdduxWrapper";
 import SubscribePage from './../components/SubscribePage';
 import ResetRequestPage from './../components/ResetRequestPage';
 import ResetPasswordPage from './../components/ResetPasswordPage';
-import ShareAddux from './../components/ShareAddux';
 import SalesPage from '../components/SalesPage';
 import AdduxApp from './../components/AdduxApp';
 

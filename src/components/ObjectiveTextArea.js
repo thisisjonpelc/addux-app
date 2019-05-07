@@ -14,8 +14,6 @@ class ObjectiveTextArea extends React.Component {
     constructor(props) {
         super(props);
 
-        console.log(props);
-
         this.state = {
             text: this.props.activeAddux['objective'],
             showSuccess: false,

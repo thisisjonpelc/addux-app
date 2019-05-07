@@ -12,6 +12,8 @@ class ColumnContent extends React.Component{
     constructor(props){
         super(props);
 
+        //console.log(props);
+
         this.state ={
             //text: props.activeAddux[`${props.category}`] ? props.activeAddux[`${props.category}`] : ""
         }
@@ -20,8 +22,6 @@ class ColumnContent extends React.Component{
     render() {
         const prompt = this.props.walkthrough[`${this.props.category}_prompt`];
         
-        console.log(accordionSize[this.props.category]);
-
         return (
             <div className="column__content">
                 <p className="column__question">
@@ -31,9 +31,13 @@ class ColumnContent extends React.Component{
                 {accordionSize[this.props.category] > 1 
                     ? 
                     (<Accordion 
-                        onCheckChange={this.props.onCheckChange} 
+                        linked={this.props.linked}
                         category={this.props.category} 
-                        readOnly={this.props.readOnly} 
+                        readOnly={this.props.readOnly}
+                        setRef={this.props.setRef}
+                        accordionOpen={this.props.accordionOpen}
+                        onCheckChange={this.props.onCheckChange}
+                        onAccordionScroll={this.props.onAccordionScroll} 
                     />) 
                     : 
                     (<div className='objective-block'>

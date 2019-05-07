@@ -24,9 +24,7 @@ class AccordionItem extends React.Component {
     }
 
     onCheckChange = (e) => {
-        // if (true) {
-        //     this.props.onCheckChange(Number(e.target.id.slice(-1)), e.target);
-        // }
+        this.props.onCheckChange(this.props.number - 1);
     }
 
     saveText = debounce(1000, (text) => {
@@ -162,14 +160,34 @@ class AccordionItem extends React.Component {
 
     }
 
-    render() {
-        return (
-            <div className='accordion__item'>
+    renderInput = () => {
+        //console.log(this.props.linked);
+
+        if(this.props.linked){
+            //console.log('Input is linked');
+            return (
                 <input
                     id={`${this.props.category}-${this.props.number}`}
                     type='checkbox'
-                    onChange={this.onCheckChange}
+                    checked={this.props.open}
+                    onChange={(e) => this.props.onCheckChange(this.props.number -1,  e.target)}
                 />
+            );
+        }
+        else{
+            return (
+                <input
+                    id={`${this.props.category}-${this.props.number}`}
+                    type='checkbox'
+                />
+            );
+        }
+    }
+
+    render() {
+        return (
+            <div className='accordion__item'>
+                {this.renderInput()}
 
                 <label 
                     className='accordion__label'
@@ -211,6 +229,7 @@ class AccordionItem extends React.Component {
 const mapStateToProps = (state) => {
 
     return {
+        activeAddux: state.addux[state.active],
         token: state.auth.token
     }
 }

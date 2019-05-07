@@ -1,10 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import axios from 'axios';
 
 import AdduxApp from './AdduxApp';
-import SignUpPage from './SignUpPage';
-import SalesPage from './SalesPage';
 import LoginPage from './LoginPage';
 
 const AdduxWrapper = (props) => {

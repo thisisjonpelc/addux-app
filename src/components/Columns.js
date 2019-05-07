@@ -1,204 +1,19 @@
 import React from "react";
 import { connect } from 'react-redux';
-import $ from 'jquery';
-import {ScrollTo} from 'react-scroll-to';
 
 import Column from "./Column";
 import EmptyPage from './EmptyPage';
-import ObjectiveTextArea from './ObjectiveTextArea';
 import ScrollArrow from './ScrollArrow';
 import ColumnHeader from './ColumnHeader';
 import CommentsForm from './CommentsForm';
 import Accordion from './Accordion';
+import LinkedColumns from './LinkedColumns';
 
 class Columns extends React.Component {
   constructor(props) {
     super(props);
 
     this.columnsRef = React.createRef();
-
-    this.state = {
-      isCol1Syncing: false,
-      isCol2Syncing: false,
-      isCol3Syncing: false,
-      isCol4Syncing: false,
-      isCol5Syncing: false
-    }
-  }
-
-  onGoalsCheckChange = (num, target) => {
-
-    const accordion = document.querySelector('.accordion');
-
-    const checkbox = accordion.childNodes[num - 1].firstChild;
-
-    if (checkbox === target & checkbox.checked === true) {
-      accordion.childNodes[num - 1].childNodes[2].firstChild.focus();
-    }
-  }
-
-  onCheckChange = (num, target) => {
-
-    const accordions = document.querySelectorAll('.accordion');
-    let checkbox;
-    let toFocus;
-
-    for (let i = 1; i < accordions.length; i++) {
-
-      checkbox = accordions[i].childNodes[num - 1].firstChild;
-
-      if (checkbox === target) {
-        if (checkbox.checked === true) {
-          setTimeout(() => {
-            accordions[i].childNodes[num - 1].childNodes[2].firstChild.focus();
-          }, 400)
-          //accordions[i].childNodes[num - 1].childNodes[2].firstChild.focus();
-        }
-      }
-      else {
-        if (checkbox.checked === true) {
-          checkbox.checked = false;
-        }
-        else {
-          checkbox.checked = true;
-        }
-      }
-    }
-  }
-
-  projectColumnScroll = (e) => {
-    const accordions = document.querySelectorAll('.accordion');
-
-    if (!this.state.isCol1Syncing) {
-      this.setState(() => {
-        return {
-          isCol2Syncing: true,
-          isCol3Syncing: true,
-          isCol4Syncing: true,
-          isCol5Syncing: true
-        }
-      });
-
-      for (let i = 1; i < accordions.length; i++) {
-        if (accordions[i] !== e.target) {
-          accordions[i].scrollTop = e.target.scrollTop;
-        }
-      }
-    }
-
-    this.setState(() => {
-      return {
-        isCol1Syncing: false
-      }
-    });
-  }
-
-  timelinesColumnScroll = (e) => {
-    const accordions = document.querySelectorAll('.accordion');
-
-    if (!this.state.isCol2Syncing) {
-      this.setState(() => {
-        return {
-          isCol1Syncing: true,
-          isCol3Syncing: true,
-          isCol4Syncing: true,
-          isCol5Syncing: true
-        }
-      });
-
-      for (let i = 1; i < accordions.length; i++) {
-        if (accordions[i] !== e.target) {
-          accordions[i].scrollTop = e.target.scrollTop;
-        }
-      }
-    }
-
-    this.setState(() => {
-      return {
-        isCol2Syncing: false
-      }
-    });
-  }
-
-  projectOwnerColumnScroll = (e) => {
-    const accordions = document.querySelectorAll('.accordion');
-
-    if (!this.state.isCol3Syncing) {
-      this.setState(() => {
-        return {
-          isCol1Syncing: true,
-          isCol2Syncing: true,
-          isCol4Syncing: true,
-          isCol5Syncing: true
-        }
-      });
-
-      for (let i = 1; i < accordions.length; i++) {
-        if (accordions[i] !== e.target) {
-          accordions[i].scrollTop = e.target.scrollTop;
-        }
-      }
-    }
-
-    this.setState(() => {
-      return {
-        isCol3Syncing: false
-      }
-    });
-  }
-
-  resourcesColumnScroll = (e) => {
-    const accordions = document.querySelectorAll('.accordion');
-
-    if (!this.state.isCol4Syncing) {
-      this.setState(() => {
-        return {
-          isCol1Syncing: true,
-          isCol2Syncing: true,
-          isCol3Syncing: true,
-          isCol5Syncing: true
-        }
-      });
-
-      for (let i = 1; i < accordions.length; i++) {
-        if (accordions[i] !== e.target) {
-          accordions[i].scrollTop = e.target.scrollTop;
-        }
-      }
-    }
-
-    this.setState(() => {
-      return {
-        isCol4Syncing: false
-      }
-    });
-  }
-
-  progressColumnScroll = (e) => {
-    const accordions = document.querySelectorAll('.accordion');
-
-    if (!this.state.isCol5Syncing) {
-      this.setState(() => {
-        return {
-          isCol1Syncing: true,
-          isCol2Syncing: true,
-          isCol3Syncing: true,
-          isCol4Syncing: true
-        }
-      });
-
-      for (let i = 1; i < accordions.length; i++) {
-        if (accordions[i] !== e.target) {
-          accordions[i].scrollTop = e.target.scrollTop;
-        }
-      }
-    }
-
-    this.setState(() => {
-      return {
-        isCol5Syncing: false
-      }
-    });
   }
 
   scrollColumns = (scrollTo, direction) => {
@@ -235,197 +50,10 @@ class Columns extends React.Component {
               showComments={this.props.showComments}
             />
 
-            <div style={{ display: 'flex' }}>
-              <div className='column'>
-
-                <ColumnHeader
-                  category={'projects'}
-                  walkthrough={this.props.walkthrough}
-                  showVideos={!this.props.readOnly}
-                />
-
-                <div className='column__content'>
-                  <p className='column__question'>
-                    {this.props.walkthrough['projects_prompt']}
-                  </p>
-
-
-                  <Accordion
-                    size={9}
-                    linked={true}
-                    onCheckChange={this.onCheckChange}
-                    openFields={this.state.openFields}
-                    activeAddux={this.props.activeAddux}
-                    category={'projects'}
-                    readOnly={this.props.readOnly}
-                    onScroll={this.projectColumnScroll}
-                  />
-
-                  {
-                    this.props.showComments
-                    &&
-                    <CommentsForm
-                      key={`${this.props.activeAddux._id}-comments`}
-                      category={'projects'}
-                      comment={this.props.activeAddux[`projects_comments`]}
-                      active={this.props.activeAddux._id}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className='column'>
-
-                <ColumnHeader
-                  category={'timelines'}
-                  walkthrough={this.props.walkthrough}
-                  showVideos={!this.props.readOnly}
-                />
-
-                <div className='column__content'>
-                  <p className='column__question'>
-                    {this.props.walkthrough['timelines_prompt']}
-                  </p>
-
-
-                  <Accordion
-                    size={9}
-                    linked={true}
-                    onCheckChange={this.onCheckChange}
-                    openFields={this.state.openFields}
-                    activeAddux={this.props.activeAddux}
-                    category={'timelines'}
-                    readOnly={this.props.readOnly}
-                    onScroll={this.timelinesColumnScroll}
-                  />
-
-                  {
-                    this.props.showComments
-                    &&
-                    <CommentsForm
-                      key={`${this.props.activeAddux._id}-comments`}
-                      category={'timelines'}
-                      comment={this.props.activeAddux[`timelines_comments`]}
-                      active={this.props.activeAddux._id}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className='column'>
-
-                <ColumnHeader
-                  category={'projectOwner'}
-                  walkthrough={this.props.walkthrough}
-                  showVideos={!this.props.readOnly}
-                />
-
-                <div className='column__content'>
-                  <p className='column__question'>
-                    {this.props.walkthrough['projectOwner_prompt']}
-                  </p>
-
-
-                  <Accordion
-                    size={9}
-                    linked={true}
-                    onCheckChange={this.onCheckChange}
-                    openFields={this.state.openFields}
-                    activeAddux={this.props.activeAddux}
-                    category={'projectOwner'}
-                    readOnly={this.props.readOnly}
-                    onScroll={this.projectOwnerColumnScroll}
-                  />
-
-                  {
-                    this.props.showComments
-                    &&
-                    <CommentsForm
-                      key={`${this.props.activeAddux._id}-comments`}
-                      category={'projectOwner'}
-                      comment={this.props.activeAddux[`projectOwner_comments`]}
-                      active={this.props.activeAddux._id}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className='column'>
-
-                <ColumnHeader
-                  category={'resources'}
-                  walkthrough={this.props.walkthrough}
-                  showVideos={!this.props.readOnly}
-                />
-
-                <div className='column__content'>
-                  <p className='column__question'>
-                    {this.props.walkthrough['resources_prompt']}
-                  </p>
-
-
-                  <Accordion
-                    size={9}
-                    linked={true}
-                    onCheckChange={this.onCheckChange}
-                    openFields={this.state.openFields}
-                    activeAddux={this.props.activeAddux}
-                    category={'resources'}
-                    readOnly={this.props.readOnly}
-                    onScroll={this.resourcesColumnScroll}
-                  />
-
-                  {
-                    this.props.showComments
-                    &&
-                    <CommentsForm
-                      key={`${this.props.activeAddux._id}-comments`}
-                      category={'resources'}
-                      comment={this.props.activeAddux[`resources_comments`]}
-                      active={this.props.activeAddux._id}
-                    />
-                  }
-                </div>
-              </div>
-
-              <div className='column'>
-
-                <ColumnHeader
-                  category={'progress'}
-                  walkthrough={this.props.walkthrough}
-                  showVideos={!this.props.readOnly}
-                />
-
-                <div className='column__content'>
-                  <p className='column__question'>
-                    {this.props.walkthrough['progress_prompt']}
-                  </p>
-
-
-                  <Accordion
-                    size={9}
-                    linked={true}
-                    onCheckChange={this.onCheckChange}
-                    openFields={this.state.openFields}
-                    activeAddux={this.props.activeAddux}
-                    category={'progress'}
-                    readOnly={this.props.readOnly}
-                    onScroll={this.progressColumnScroll}
-                  />
-
-                  {
-                    this.props.showComments
-                    &&
-                    <CommentsForm
-                      key={`${this.props.activeAddux._id}-comments`}
-                      category={'progress'}
-                      comment={this.props.activeAddux[`progress_comments`]}
-                      active={this.props.activeAddux._id}
-                    />
-                  }
-                </div>
-              </div>
-            </div>
+            <LinkedColumns 
+              sharePage={this.props.sharePage} 
+              showComments={this.props.showComments}
+            />
 
           </main>
         )
@@ -516,5 +144,199 @@ export default connect(mapStateToProps)(Columns);
 //                     active={this.props.activeAddux._id}
 //                   />
 //                 }
+//               </div>
+//             </div>
+
+//LINKED COLUMNS
+
+// <div style={{ display: 'flex' }}>
+//               <div className='column'>
+
+//                 <ColumnHeader
+//                   category={'projects'}
+//                   walkthrough={this.props.walkthrough}
+//                   showVideos={!this.props.readOnly}
+//                 />
+
+//                 <div className='column__content'>
+//                   <p className='column__question'>
+//                     {this.props.walkthrough['projects_prompt']}
+//                   </p>
+
+
+//                   <Accordion
+//                     size={9}
+//                     linked={true}
+//                     onCheckChange={this.onCheckChange}
+//                     openFields={this.state.openFields}
+//                     activeAddux={this.props.activeAddux}
+//                     category={'projects'}
+//                     readOnly={this.props.readOnly}
+//                     onScroll={this.projectColumnScroll}
+//                   />
+
+//                   {
+//                     this.props.showComments
+//                     &&
+//                     <CommentsForm
+//                       key={`${this.props.activeAddux._id}-comments`}
+//                       category={'projects'}
+//                       comment={this.props.activeAddux[`projects_comments`]}
+//                       active={this.props.activeAddux._id}
+//                     />
+//                   }
+//                 </div>
+//               </div>
+
+//               <div className='column'>
+
+//                 <ColumnHeader
+//                   category={'timelines'}
+//                   walkthrough={this.props.walkthrough}
+//                   showVideos={!this.props.readOnly}
+//                 />
+
+//                 <div className='column__content'>
+//                   <p className='column__question'>
+//                     {this.props.walkthrough['timelines_prompt']}
+//                   </p>
+
+
+//                   <Accordion
+//                     size={9}
+//                     linked={true}
+//                     onCheckChange={this.onCheckChange}
+//                     openFields={this.state.openFields}
+//                     activeAddux={this.props.activeAddux}
+//                     category={'timelines'}
+//                     readOnly={this.props.readOnly}
+//                     onScroll={this.timelinesColumnScroll}
+//                   />
+
+//                   {
+//                     this.props.showComments
+//                     &&
+//                     <CommentsForm
+//                       key={`${this.props.activeAddux._id}-comments`}
+//                       category={'timelines'}
+//                       comment={this.props.activeAddux[`timelines_comments`]}
+//                       active={this.props.activeAddux._id}
+//                     />
+//                   }
+//                 </div>
+//               </div>
+
+//               <div className='column'>
+
+//                 <ColumnHeader
+//                   category={'projectOwner'}
+//                   walkthrough={this.props.walkthrough}
+//                   showVideos={!this.props.readOnly}
+//                 />
+
+//                 <div className='column__content'>
+//                   <p className='column__question'>
+//                     {this.props.walkthrough['projectOwner_prompt']}
+//                   </p>
+
+
+//                   <Accordion
+//                     size={9}
+//                     linked={true}
+//                     onCheckChange={this.onCheckChange}
+//                     openFields={this.state.openFields}
+//                     activeAddux={this.props.activeAddux}
+//                     category={'projectOwner'}
+//                     readOnly={this.props.readOnly}
+//                     onScroll={this.projectOwnerColumnScroll}
+//                   />
+
+//                   {
+//                     this.props.showComments
+//                     &&
+//                     <CommentsForm
+//                       key={`${this.props.activeAddux._id}-comments`}
+//                       category={'projectOwner'}
+//                       comment={this.props.activeAddux[`projectOwner_comments`]}
+//                       active={this.props.activeAddux._id}
+//                     />
+//                   }
+//                 </div>
+//               </div>
+
+//               <div className='column'>
+
+//                 <ColumnHeader
+//                   category={'resources'}
+//                   walkthrough={this.props.walkthrough}
+//                   showVideos={!this.props.readOnly}
+//                 />
+
+//                 <div className='column__content'>
+//                   <p className='column__question'>
+//                     {this.props.walkthrough['resources_prompt']}
+//                   </p>
+
+
+//                   <Accordion
+//                     size={9}
+//                     linked={true}
+//                     onCheckChange={this.onCheckChange}
+//                     openFields={this.state.openFields}
+//                     activeAddux={this.props.activeAddux}
+//                     category={'resources'}
+//                     readOnly={this.props.readOnly}
+//                     onScroll={this.resourcesColumnScroll}
+//                   />
+
+//                   {
+//                     this.props.showComments
+//                     &&
+//                     <CommentsForm
+//                       key={`${this.props.activeAddux._id}-comments`}
+//                       category={'resources'}
+//                       comment={this.props.activeAddux[`resources_comments`]}
+//                       active={this.props.activeAddux._id}
+//                     />
+//                   }
+//                 </div>
+//               </div>
+
+//               <div className='column'>
+
+//                 <ColumnHeader
+//                   category={'progress'}
+//                   walkthrough={this.props.walkthrough}
+//                   showVideos={!this.props.readOnly}
+//                 />
+
+//                 <div className='column__content'>
+//                   <p className='column__question'>
+//                     {this.props.walkthrough['progress_prompt']}
+//                   </p>
+
+
+//                   <Accordion
+//                     size={9}
+//                     linked={true}
+//                     onCheckChange={this.onCheckChange}
+//                     openFields={this.state.openFields}
+//                     activeAddux={this.props.activeAddux}
+//                     category={'progress'}
+//                     readOnly={this.props.readOnly}
+//                     onScroll={this.progressColumnScroll}
+//                   />
+
+//                   {
+//                     this.props.showComments
+//                     &&
+//                     <CommentsForm
+//                       key={`${this.props.activeAddux._id}-comments`}
+//                       category={'progress'}
+//                       comment={this.props.activeAddux[`progress_comments`]}
+//                       active={this.props.activeAddux._id}
+//                     />
+//                   }
+//                 </div>
 //               </div>
 //             </div>

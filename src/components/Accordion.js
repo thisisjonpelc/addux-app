@@ -1,46 +1,46 @@
 import React from "react";
-import {connect} from 'react-redux';
+import { connect } from 'react-redux';
 
 import AccordionItem from "./AccordionItem";
 
-import {accordionSize} from './../constants/constants';
+import { accordionSize } from './../constants/constants';
 
-class Accordion extends React.Component{
-    constructor(props){
+class Accordion extends React.Component {
+    constructor(props) {
         super(props);
-        
+
         this.state = {
             open: -1
         }
     }
 
-    changeOpenItem = (num) => {
-
-        const newOpen = num === this.state.open ? -1 : num;
-
-        this.setState({
-            open:newOpen
-        });
+    onScroll = (e) => {
+        this.props.onAccordionScroll(this.props.category, e.target);
     }
 
     render() {
+        //console.log(this.props);
 
-        let result = []        
+        const refValue = this.props.setRef ? (element) => this.props.setRef(this.props.category, element) : null;
 
-        for(let i = 1; i <= accordionSize[this.props.category]; i++){
-            result[i] = <AccordionItem 
-                            key={`${this.props.activeAddux._id}-${i}`} 
-                            category={this.props.category} 
-                            number={i}
-                            onCheckChange={this.props.onCheckChange} 
-                            onLabelClick={this.onLabelClick} 
-                            readOnly={this.props.readOnly}
-                            activeAddux={this.props.activeAddux}
-                        />
+        let result = [];
+
+        for (let i = 1; i <= accordionSize[this.props.category]; i++) {
+            const open = this.props.accordionOpen ? this.props.accordionOpen[i - 1] : false;
+
+            result[i] = <AccordionItem
+                key={`${this.props.activeAddux._id}-${i}`}
+                linked={this.props.linked}
+                category={this.props.category}
+                number={i}
+                readOnly={this.props.readOnly}
+                open={open}
+                onCheckChange={this.props.onCheckChange}
+            />
         }
 
         return (
-            <div onScroll={this.props.onScroll} className="accordion">
+            <div ref={refValue} onScroll={(e) => this.props.onAccordionScroll(this.props.category, e.target)} className="accordion">
                 {result}
             </div>
         );
