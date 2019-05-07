@@ -1,11 +1,11 @@
 import {createStore, combineReducers, applyMiddleware, compose} from "redux";
+import reduxThunk from 'redux-thunk';
 
 import {saveAuthToken} from './../middleware/middleware';
 
 import adduxReducer from './../reducers/addux';
 import authReducer from './../reducers/auth';
 import walkthroughReducer from './../reducers/walkthrough';
-//import subscriptionReducer from './../reducers/subscription';
 import activeReducer from '../reducers/active';
 
 const composeEnhancers = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
@@ -20,7 +20,7 @@ export default () => {
             //subscription: subscriptionReducer,
             active:activeReducer
         }),
-        composeEnhancers(applyMiddleware(saveAuthToken))
+        composeEnhancers(applyMiddleware(saveAuthToken, reduxThunk))
     );
 
     return store;

@@ -1,12 +1,8 @@
 import React from "react";
 import { connect } from 'react-redux';
 import { debounce } from 'throttle-debounce';
-import axios from 'axios';
 
-import { history } from './../routers/AppRouter';
-
-import { logout } from './../actions/auth';
-import { editAddux } from './../actions/addux';
+import { startEditAddux } from './../actions/addux';
 
 class Header extends React.Component {
 
@@ -28,38 +24,13 @@ class Header extends React.Component {
             name
         };
 
-        axios.patch(
-            `/addux/${this.props.activeAddux._id}`,
-            updates,
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            }
-        )
-            .then((response) => {
-                this.props.editAddux(this.props.activeAddux._id, updates);
-            })
-            .catch((error) => {
-                if (error.response.status === 402) {
-                    this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else if (error.response.status === 401) {
-                    this.props.logout();
-                    history.push('/login');
-                }
-            });
-
+        this.props.startEditAddux(this.props.activeAddux._id, updates);
     });
 
     onNameChange = (e) => {
         const name = e.target.value;
-
-        //if(!this.props.sharePage){
-            this.setState({ name });
-            this.saveName(name);
-        //}
+        this.setState({ name });
+        this.saveName(name);
     }
 
     onLogoutClick = () => {
@@ -114,17 +85,17 @@ class Header extends React.Component {
                 }
 
                 <div className='info-box'>
-                    <input 
-                        onClick={this.onNameClick} 
-                        onChange={this.onNameChange} 
-                        className='info-box__title' 
-                        placeholder='Name your addux' 
-                        type='text' 
-                        value={this.state.name} 
+                    <input
+                        onClick={this.onNameClick}
+                        onChange={this.onNameChange}
+                        className='info-box__title'
+                        placeholder='Name your addux'
+                        type='text'
+                        value={this.state.name}
                         readOnly={this.props.sharePage}
                     />
                 </div>
-                
+
 
                 {!this.props.sharePage
                     &&
@@ -151,4 +122,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, { logout, editAddux })(Header);
+export default connect(mapStateToProps, { startEditAddux })(Header);

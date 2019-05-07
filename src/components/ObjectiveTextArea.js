@@ -1,13 +1,8 @@
 import React from "react";
 import { connect } from "react-redux";
-
 import { debounce } from 'throttle-debounce';
-import axios from 'axios';
 
-import { history } from './../routers/AppRouter';
-
-import { editAddux } from './../actions/addux';
-import { logout } from './../actions/auth';
+import { startEditAddux } from './../actions/addux';
 
 class ObjectiveTextArea extends React.Component {
 
@@ -33,61 +28,7 @@ class ObjectiveTextArea extends React.Component {
 
         updates['objective'] = text;
 
-        axios.patch(
-            `/addux/${this.props.activeAddux._id}`,
-            updates,
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            }
-        )
-            .then((response) => {
-
-                this.setState(() => {
-                    return {
-                        showSuccess:true
-                    };
-                });
-    
-                setTimeout(() => {
-                    this.setState(() => {
-                        return {
-                            showSuccess:false
-                        }
-                    })
-                },
-                1000);
-
-                this.props.editAddux(this.props.activeAddux._id, updates);
-
-            })
-            .catch((err) => {
-                if (err.response.status === 402) {
-                    //this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else if (err.response.status === 401) {
-                    this.props.logout();
-                    history.push('/login');
-                }
-                else {
-                    this.setState(() => {
-                        return {
-                            showFailure:true
-                        };
-                    });
-        
-                    setTimeout(() => {
-                        this.setState(() => {
-                            return {
-                                showFailure:false
-                            }
-                        })
-                    },
-                    1000);
-                }
-            });
+        this.props.startEditAddux(this.props.activeAddux._id, updates);
     });
 
     render() {
@@ -114,4 +55,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {editAddux, logout})(ObjectiveTextArea);
+export default connect(mapStateToProps, {startEditAddux})(ObjectiveTextArea);

@@ -1,13 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import {debounce} from 'throttle-debounce';
-import axios from 'axios';
 
-import {history} from './../routers/AppRouter';
-
-import {deleteAddux, editAddux} from './../actions/addux';
-//import {unsubscribe} from './../actions/subscription';
-import {logout} from './../actions/auth';
+import {deleteAddux, startEditAddux} from './../actions/addux';
 
 class AdduxListItem extends React.Component{
 
@@ -53,44 +47,11 @@ class AdduxListItem extends React.Component{
         e.stopPropagation();
 
         if(this.state.nameChanged){
-            this.saveName(this.state.name);
+            this.props.startEditAddux(this.props.id, {name: this.state.name});
         }
  
         this.setState({nameEdit:false, nameChanged:false});
     }
-
-    saveName = (name) => {
-
-        const updates={
-            name
-        };
-
-        axios.patch(
-            `/addux/${this.props.id}`,
-            updates,
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            }
-        )
-            .then((response) => {
-                this.props.editAddux(this.props.id, updates);
-            })
-            .catch((error) => {
-
-                console.log(error);
-
-                if (error.response.status === 402) {
-                    this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else if (error.response.status === 401) {
-                    this.props.logout();
-                    history.push('/login');
-                }
-            });
-    };
 
     onNameChange = (e) => {
         const name = e.target.value;
@@ -128,13 +89,4 @@ class AdduxListItem extends React.Component{
     }
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         editAddux: (activeAddux, updates) => dispatch(editAddux(activeAddux, updates)),
-//         deleteAddux: (id) => dispatch(deleteAddux(id)),
-//         unsubscribe: () => dispatch(unsubscribe()),
-//         logout: () => dispatch(logout())
-//     }
-// }
-
-export default connect(null)(AdduxListItem);
+export default connect(null, {startEditAddux})(AdduxListItem);

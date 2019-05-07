@@ -1,15 +1,10 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { debounce } from 'throttle-debounce';
-import axios from 'axios';
-
-import { history } from './../routers/AppRouter';
 
 import { labels } from '../constants/constants';
 
-import { editAddux } from './../actions/addux';
-//import { unsubscribe } from './../actions/subscription';
-import { logout } from './../actions/auth';
+import { startEditAddux } from './../actions/addux';
 
 class AccordionItem extends React.Component {
     constructor(props) {
@@ -33,18 +28,8 @@ class AccordionItem extends React.Component {
 
         updates[`${this.props.category}_${this.props.number}`] = text;
 
-        axios.patch(
-            `/addux/${this.props.activeAddux._id}`,
-            updates,
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            }
-        )
-            .then((response) => {
-                this.props.editAddux(this.props.activeAddux._id, updates);
-
+        this.props.startEditAddux(this.props.activeAddux._id, updates)
+            .then(() => {
                 this.setState(() => {
                     return {
                         showSuccess: true
@@ -59,33 +44,24 @@ class AccordionItem extends React.Component {
                     })
                 },
                     1000);
-
             })
-            .catch((e) => {
-                if (e.response.status === 402) {
-                    this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else if (e.response.status === 401) {
-                    this.props.logout();
-                    history.push('/login');
-                }
-                else {
+            .catch((err) => {
+                console.log('Error!');
+
+                this.setState(() => {
+                    return {
+                        showFailure: true
+                    };
+                });
+
+                setTimeout(() => {
                     this.setState(() => {
                         return {
-                            showFailure: true
-                        };
-                    });
-
-                    setTimeout(() => {
-                        this.setState(() => {
-                            return {
-                                showFailure: false
-                            }
-                        })
-                    },
-                        1000);
-                }
+                            showFailure: false
+                        }
+                    })
+                },
+                    1000);
             });
     });
 
@@ -103,18 +79,8 @@ class AccordionItem extends React.Component {
 
         updates[`${this.props.category}_${this.props.number}_status`] = statusSelected;
 
-        axios.patch(
-            `/addux/${this.props.activeAddux._id}`,
-            updates,
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            }
-        )
-            .then((response) => {
-                this.props.editAddux(this.props.activeAddux._id, updates);
-
+        this.props.startEditAddux(this.props.activeAddux._id, updates)
+            .then(() => {
                 this.setState(() => {
                     return {
                         showSuccess: true
@@ -129,52 +95,38 @@ class AccordionItem extends React.Component {
                     })
                 },
                     1000);
-
             })
-            .catch((e) => {
-                if (e.response.status === 402) {
-                    this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else if (e.response.status === 401) {
-                    this.props.logout();
-                    history.push('/login');
-                }
-                else {
+            .catch((err) => {
+                this.setState(() => {
+                    return {
+                        showFailure: true
+                    };
+                });
+
+                setTimeout(() => {
                     this.setState(() => {
                         return {
-                            showFailure: true
-                        };
-                    });
-
-                    setTimeout(() => {
-                        this.setState(() => {
-                            return {
-                                showFailure: false
-                            }
-                        })
-                    },
-                        1000);
-                }
+                            showFailure: false
+                        }
+                    })
+                },
+                    1000);
             });
-
     }
 
     renderInput = () => {
-        //console.log(this.props.linked);
 
-        if(this.props.linked){
-            //console.log('Input is linked');
+        if (this.props.linked) {
             return (
                 <input
                     id={`${this.props.category}-${this.props.number}`}
                     type='checkbox'
                     checked={this.props.open}
-                    onChange={(e) => this.props.onCheckChange(this.props.number -1,  e.target)}
+                    onChange={(e) => this.props.onCheckChange(this.props.number - 1, e.target)}
                 />
             );
         }
-        else{
+        else {
             return (
                 <input
                     id={`${this.props.category}-${this.props.number}`}
@@ -189,7 +141,7 @@ class AccordionItem extends React.Component {
             <div className='accordion__item'>
                 {this.renderInput()}
 
-                <label 
+                <label
                     className='accordion__label'
                     htmlFor={`${this.props.category}-${this.props.number}`}
                 >
@@ -200,7 +152,7 @@ class AccordionItem extends React.Component {
                         <use xlinkHref='img/sprite.svg#icon-chevron-down-solid'></use>
                     </svg>
                 </label>
-                
+
                 <div className='accordion__text'>
                     <textarea
                         maxLength='100'
@@ -234,4 +186,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, { editAddux, logout })(AccordionItem);
+export default connect(mapStateToProps, { startEditAddux })(AccordionItem);
