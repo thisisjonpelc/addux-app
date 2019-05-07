@@ -21,9 +21,10 @@ class ColumnContent extends React.Component{
 
     render() {
         const prompt = this.props.walkthrough[`${this.props.category}_prompt`];
-        
+        const refValue = this.props.setRef ? (element) => this.props.setRef('column', this.props.category, element) : null;
+
         return (
-            <div className="column__content">
+            <div ref={refValue} onScroll={(e) => this.props.onScroll('column', e.target)} className="column__content">
                 <p className="column__question">
                     {prompt}
                 </p>
@@ -37,7 +38,7 @@ class ColumnContent extends React.Component{
                         setRef={this.props.setRef}
                         accordionOpen={this.props.accordionOpen}
                         onCheckChange={this.props.onCheckChange}
-                        onAccordionScroll={this.props.onAccordionScroll} 
+                        onScroll={this.props.onScroll} 
                     />) 
                     : 
                     (<div className='objective-block'>
@@ -63,7 +64,7 @@ class ColumnContent extends React.Component{
     }
 }
 
-const mapStateToProps = (state, ownProps) => {
+const mapStateToProps = (state) => {
     return {
         walkthrough: state.walkthrough,
         activeAddux: state.addux[state.active],

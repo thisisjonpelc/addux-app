@@ -21,7 +21,7 @@ class Accordion extends React.Component {
     render() {
         //console.log(this.props);
 
-        const refValue = this.props.setRef ? (element) => this.props.setRef(this.props.category, element) : null;
+        const refValue = this.props.setRef ? (element) => this.props.setRef('accordion', this.props.category, element) : null;
 
         let result = [];
 
@@ -40,7 +40,7 @@ class Accordion extends React.Component {
         }
 
         return (
-            <div ref={refValue} onScroll={(e) => this.props.onAccordionScroll(this.props.category, e.target)} className="accordion">
+            <div ref={refValue} onScroll={(e) => this.props.onScroll('accordion', e.target)} className="accordion">
                 {result}
             </div>
         );

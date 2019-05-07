@@ -4,7 +4,7 @@ import ColumnHeader from "./ColumnHeader";
 import ColumnContent from "./ColumnContent";
 import { PromiseProvider } from "mongoose";
 
-    const Column = ({category, sharePage, showComments, setRef, accordionOpen, linked, onCheckChange, onAccordionScroll}) => {
+    const Column = ({category, sharePage, showComments, setRef, accordionOpen, linked, onCheckChange, onScroll}) => {
         
         //console.log(accordionOpen);
         
@@ -23,7 +23,7 @@ import { PromiseProvider } from "mongoose";
                 setRef={setRef}
                 accordionOpen={accordionOpen}
                 onCheckChange={onCheckChange}
-                onAccordionScroll={onAccordionScroll}
+                onScroll={onScroll}
             />
         </div>
     )};
