@@ -5,9 +5,7 @@ import axios from 'axios';
 import StripePanel from './StripePanel';
 import SubscriptionPanel from './SubscriptionPanel';
 
-import {history} from './../routers/AppRouter';
-
-import {updateUser, logout} from './../actions/auth';
+import {startUpdateUser} from './../actions/auth';
 
 class UserPage extends React.Component {
     constructor(props) {
@@ -91,36 +89,17 @@ class UserPage extends React.Component {
                 updates.password = this.state.password;
             }
 
-            axios.patch(
-                `/users/${this.props.auth._id}`,
-                updates,
-                {
-                    headers: {
-                        'x-auth': this.props.auth.token
-                    }
-                }
-            )
-            .then((response) => {
-                this.setState(() => ({
-                    formError: '',
-                    formStatus: 'User updated succesfully!'
-                }));
-                this.props.updateUser(updates);
-            })
-            .catch((e) => {
-
-                if(e.response.status === 401){
-                    this.props.logout();
-                    history.push('/login');
-                }
-                else{
+            this.props.startUpdateUser(this.props.auth._id, updates)
+                .then(() => {
                     this.setState(() => ({
-                        formStatus: '',
-                        formError: e.message
+                        formError: '',
+                        formStatus: 'User updated succesfully!'
                     }));
-                }
-            });
-
+                })
+                .catch((err) => {
+                    console.log('Error updating user!');
+                    console.log(err);
+                });
         }
         else{
             this.setState(() => ({formError: 'First Name, Last Name, and Email are required', formStatus: ''}));
@@ -265,9 +244,4 @@ const mapStateToProps = (state) => ({
     auth: state.auth
 });
 
-const mapDispatchToProps = (dispatch) => ({
-    updateUser: (updates) => dispatch(updateUser(updates)),
-    logout: () => dispatch(logout())
-})
-
-export default connect(mapStateToProps, mapDispatchToProps)(UserPage);
+export default connect(mapStateToProps, {startUpdateUser})(UserPage);

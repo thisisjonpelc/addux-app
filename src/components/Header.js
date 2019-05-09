@@ -3,6 +3,7 @@ import { connect } from 'react-redux';
 import { debounce } from 'throttle-debounce';
 
 import { startEditAddux } from './../actions/addux';
+import {logout} from './../actions/auth';
 
 class Header extends React.Component {
 
@@ -122,4 +123,4 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, { startEditAddux })(Header);
+export default connect(mapStateToProps, { startEditAddux, logout })(Header);

@@ -1,6 +1,9 @@
 import React from 'react';
 
-const VimeoVideo = (props) => {
+const VimeoVideo = ({id, setRef}) => {
+    
+    const refValue = setRef ? (element) => setRef(element) : null;
+    
     return (
 
         <div className='vimeo-video'>
@@ -9,7 +12,7 @@ const VimeoVideo = (props) => {
                 position:'relative'
                 
         }}>
-            <iframe id={props.id} src={`https://player.vimeo.com/video/${props.id}?title=0&byline=0&portrait=0`} 
+            <iframe ref={refValue} id={id} src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`} 
                     style={{
                         position: 'absolute',
                         top:0,

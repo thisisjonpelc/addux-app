@@ -47,6 +47,7 @@ class AccordionItem extends React.Component {
             })
             .catch((err) => {
                 console.log('Error!');
+                console.log(err);
 
                 this.setState(() => {
                     return {

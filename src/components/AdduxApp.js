@@ -1,7 +1,5 @@
 import React from "react";
 import { connect } from "react-redux";
-import axios from "axios";
-import $ from 'jquery';
 
 import Header from "./Header";
 import Columns from "./Columns";
@@ -20,15 +18,21 @@ import VimeoVideo from './VimeoVideo';
 import { history } from './../routers/AppRouter';
 
 import { addAddux } from './../actions/addux';
-import { initializeApp } from './../actions/general';
+import { startInitializeApp } from './../actions/general';
 //import { unsubscribe } from './../actions/subscription';
 import { logout } from './../actions/auth';
 
-import {isEmptyObject} from './../utils/utils';
+import { isEmptyObject } from './../utils/utils';
 
 class AdduxApp extends React.Component {
     constructor(props) {
         super(props);
+
+        this.tutorialRef = null;
+
+        this.setTutorialRef = (element) => {
+            this.tutorialRef = element;
+        }
 
         this.state = {
             listActive: false,
@@ -76,17 +80,23 @@ class AdduxApp extends React.Component {
 
     changeTutorialActive = () => {
 
+        console.log('Changing Tutorial Active');
+
+        console.log(this.tutorialRef);
+
         if (this.state.tutorialActive) {
-            var $frame = $(`iframe#301701128`);
 
             // saves the current iframe source
-            var vidsrc = $frame.attr('src');
+            var vidsrc = this.tutorialRef.getAttribute('src');//$frame.attr('src');
 
             // sets the source to nothing, stopping the video
-            $frame.attr('src', '');
+            //$frame.attr('src', '');
+            this.tutorialRef.setAttribute('src', '');
+
 
             // sets it back to the correct link so that it reloads immediately on the next window open
-            $frame.attr('src', vidsrc);
+            //$frame.attr('src', vidsrc);
+            this.tutorialRef.setAttribute('src', vidsrc);
         }
 
         this.setState((prevState) => ({
@@ -102,58 +112,12 @@ class AdduxApp extends React.Component {
         this.setState({ createModal: false, editModal: false })
     }
 
-    createNewModal = (e) => {
-        e.preventDefault();
-        const name = e.target.children[0].children[0].value;
-
-        axios.post(
-            `/addux`,
-            {
-                name
-            },
-            {
-                headers: {
-                    'x-auth': this.props.token
-                }
-            })
-            .then((response) => {
-                this.handleCloseModal();
-                this.props.addAddux(response.data.addux);
-            })
-            .catch((e) => {
-                if (e.response.status === 402) {
-                    this.props.unsubscribe();
-                    history.push('/subscribe');
-                }
-                else {
-                }
-            });
-    };
-
     componentDidMount() {
 
         if (!this.props.sharePage) {
-            Promise.all(
-                [
-                    axios({
-                        method: 'get',
-                        url: '/addux',
-                        headers: {
-                            'x-auth': this.props.token
-                        }
-                    }),
-                    axios({
-                        method: 'get',
-                        url: '/walkthrough'
-                    })
-                ])
-                .then((responses) => {
-                    const adduxResponse = responses[0];
-                    const walkthroughResponse = responses[1];
 
-                    console.log('Recieved Data from server!');
-
-                    this.props.initializeApp(adduxResponse.data.adduxes, walkthroughResponse.data);
+            this.props.startInitializeApp()
+                .then(() => {
                     this.setState(() => {
                         return {
                             dataStatus: 'RECIEVED'
@@ -161,25 +125,11 @@ class AdduxApp extends React.Component {
                     });
                 })
                 .catch((err) => {
-                    if (err.response.status === 402) {
-                        //this.props.unsubscribe();
-                        history.push('/subscribe');
-                    }
-                    else if (err.response.status === 401) {
-                        this.props.logout();
-                        history.push('/login');
-                    }
-                    else {
-                        //this.props.dataError();
-                        this.setState(() => {
-                            return {
-                                dataStatus: 'ERROR'
-                            }
-                        });
-                    }
+                    console.log('Error initializing app!');
+                    console.log(err);
                 });
         }
-        else{
+        else {
             console.log('This is a share page!');
         }
 
@@ -194,18 +144,28 @@ class AdduxApp extends React.Component {
         else if (this.state.dataStatus === "RECIEVED") {
             return (
                 <div className="app">
-                    
-                    
-                    {!this.props.sharePage 
-                        && 
-                        <AdduxList 
-                            listActive={this.state.listActive} 
-                            changeListActive={this.changeListActive} 
-                            empty={this.props.empty} 
+
+                    {
+                        !this.props.sharePage
+                        &&
+                        <AdduxList
+                            listActive={this.state.listActive}
+                            changeListActive={this.changeListActive}
+                            empty={this.props.empty}
                         />
                     }
-                    
-                        {!this.props.empty && !this.props.sharePage && <Notes key={`${this.props.activeAddux._id}-notes`} changeNotesActive={this.changeNotesActive} notesActive={this.state.notesActive} token={this.props.token} activeAddux={this.props.activeAddux} />}
+
+                    {
+                        !this.props.empty &&
+                        !this.props.sharePage &&
+                        <Notes
+                            key={`${this.props.activeAddux._id}-notes`}
+                            changeNotesActive={this.changeNotesActive}
+                            notesActive={this.state.notesActive}
+                            token={this.props.token}
+                            activeAddux={this.props.activeAddux}
+                        />
+                    }
 
                     <Header
                         sharePage={this.props.sharePage}
@@ -228,18 +188,52 @@ class AdduxApp extends React.Component {
                         showComments={this.props.showComments}
                     />
 
+                    <Footer changeTutorialActive={this.changeTutorialActive} showCreateModal={this.showCreateModal} />
+
                     <AppOverlay
                         isOpen={this.state.createModal}
                         onRequestClose={this.handleCloseModal}
                     >
                         <AdduxNameForm
                             buttonText='Create new addux'
-                            onSubmit={this.createNewModal}
                             closeModal={this.handleCloseModal}
                             token={this.props.token}
                         />
                     </AppOverlay>
-                    
+
+                    <AppOverlay
+                        isOpen={this.state.userActive}
+                        onRequestClose={this.changeUserActive}
+                    >
+                        <UserPage />
+                    </AppOverlay>
+
+                    <AppOverlay
+                        isOpen={this.state.tutorialActive}
+                        onRequestClose={this.changeTutorialActive}
+                    >
+                        <VimeoVideo setRef={this.setTutorialRef} id={303574328} />
+                    </AppOverlay>
+
+                    {
+                        !this.props.empty &&
+                        <AppOverlay
+                            isOpen={this.state.shareActive}
+                            onRequestClose={this.changeShareActive}
+                        >
+                            <SharePage key={this.props.activeAddux._id} />
+                        </AppOverlay>
+                    }
+
+                    {this.props.isAdmin
+                        &&
+                        <AppOverlay
+                            isOpen={this.state.adminActive}
+                            onRequestClose={this.changeAdminActive}
+                        >
+                            <AdminPage token={this.props.token} />
+                        </AppOverlay>}
+
                 </div>
             );
         }
@@ -261,7 +255,7 @@ const mapStateToProps = (state) => {
     }
 };
 
-export default connect(mapStateToProps, { initializeApp, addAddux, logout })(AdduxApp);
+export default connect(mapStateToProps, { startInitializeApp })(AdduxApp);
 
 
 /*

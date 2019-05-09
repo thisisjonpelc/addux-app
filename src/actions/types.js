@@ -18,7 +18,6 @@ export const SET_ACTIVE = 'SET_ACTIVE';
 export const EDIT_COMMENT = 'EDIT_COMMENT';
 
 //Auth Action Types
-export const UPDATE_TOKEN = 'UPDATE_TOKEN';
 export const UPDATE_USER = 'UPDATE_USER';
 
 //Walkthrough Action Types
