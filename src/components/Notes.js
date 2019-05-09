@@ -56,4 +56,8 @@ class Notes extends React.Component {
     }
 }
 
-export default connect(null, { startEditAddux })(Notes);
+const mapStateToProps = (state) => ({
+    activeAddux: state.addux[state.active]
+});
+
+export default connect(mapStateToProps, { startEditAddux })(Notes);

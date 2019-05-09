@@ -7,7 +7,6 @@ import Footer from "./Footer";
 import LoadingPage from "./LoadingPage";
 import AdduxList from './AdduxList';
 import Notes from './Notes';
-import ScrollArrow from './ScrollArrow';
 import SharePage from './SharePage';
 import AdminPage from './AdminPage';
 import UserPage from './UserPage';
@@ -15,14 +14,9 @@ import AdduxNameForm from './AdduxNameForm';
 import AppOverlay from './AppOverlay';
 import VimeoVideo from './VimeoVideo';
 
-import { history } from './../routers/AppRouter';
-
-import { addAddux } from './../actions/addux';
 import { startInitializeApp } from './../actions/general';
 //import { unsubscribe } from './../actions/subscription';
-import { logout } from './../actions/auth';
-
-import { isEmptyObject } from './../utils/utils';
+import { isEmptyObject, stopVideo } from './../utils/utils';
 
 class AdduxApp extends React.Component {
     constructor(props) {
@@ -86,17 +80,19 @@ class AdduxApp extends React.Component {
 
         if (this.state.tutorialActive) {
 
-            // saves the current iframe source
-            var vidsrc = this.tutorialRef.getAttribute('src');//$frame.attr('src');
+            stopVideo(this.tutorialRef);
 
-            // sets the source to nothing, stopping the video
-            //$frame.attr('src', '');
-            this.tutorialRef.setAttribute('src', '');
+            // // saves the current iframe source
+            // var vidsrc = this.tutorialRef.getAttribute('src');//$frame.attr('src');
+
+            // // sets the source to nothing, stopping the video
+            // //$frame.attr('src', '');
+            // this.tutorialRef.setAttribute('src', '');
 
 
-            // sets it back to the correct link so that it reloads immediately on the next window open
-            //$frame.attr('src', vidsrc);
-            this.tutorialRef.setAttribute('src', vidsrc);
+            // // sets it back to the correct link so that it reloads immediately on the next window open
+            // //$frame.attr('src', vidsrc);
+            // this.tutorialRef.setAttribute('src', vidsrc);
         }
 
         this.setState((prevState) => ({
@@ -162,8 +158,6 @@ class AdduxApp extends React.Component {
                             key={`${this.props.activeAddux._id}-notes`}
                             changeNotesActive={this.changeNotesActive}
                             notesActive={this.state.notesActive}
-                            token={this.props.token}
-                            activeAddux={this.props.activeAddux}
                         />
                     }
 
@@ -176,7 +170,6 @@ class AdduxApp extends React.Component {
                         changeNotesActive={this.changeNotesActive}
                         changeUserActive={this.changeUserActive}
                         empty={this.props.empty}
-                        token={this.props.token}
                         key={`${this.props.activeAddux._id}_${this.props.activeAddux.name}`}
                     />
 
@@ -188,7 +181,7 @@ class AdduxApp extends React.Component {
                         showComments={this.props.showComments}
                     />
 
-                    <Footer changeTutorialActive={this.changeTutorialActive} showCreateModal={this.showCreateModal} />
+                    <Footer changeTutorialActive={this.changeTutorialActive} />
 
                     <AppOverlay
                         isOpen={this.state.createModal}
@@ -197,7 +190,6 @@ class AdduxApp extends React.Component {
                         <AdduxNameForm
                             buttonText='Create new addux'
                             closeModal={this.handleCloseModal}
-                            token={this.props.token}
                         />
                     </AppOverlay>
 
@@ -231,7 +223,7 @@ class AdduxApp extends React.Component {
                             isOpen={this.state.adminActive}
                             onRequestClose={this.changeAdminActive}
                         >
-                            <AdminPage token={this.props.token} />
+                            <AdminPage />
                         </AppOverlay>}
 
                 </div>
@@ -247,11 +239,9 @@ class AdduxApp extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        token: state.auth.token,
         empty: isEmptyObject(state.addux),
         activeAddux: state.addux[state.active],
-        isAdmin: state.auth.isAdmin,
-        walkthrough: state.walkthrough
+        isAdmin: state.auth.isAdmin
     }
 };
 

@@ -18,3 +18,17 @@ export const validatePassword = (password) => {
     }
 
 }
+
+export const stopVideo = (videoElement) => {
+    // saves the current iframe source
+    var vidsrc = videoElement.getAttribute('src');//$frame.attr('src');
+
+    // sets the source to nothing, stopping the video
+    //$frame.attr('src', '');
+    videoElement.setAttribute('src', '');
+
+
+    // sets it back to the correct link so that it reloads immediately on the next window open
+    //$frame.attr('src', vidsrc);
+    videoElement.setAttribute('src', vidsrc);
+}

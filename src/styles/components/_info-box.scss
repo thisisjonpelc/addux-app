@@ -8,6 +8,8 @@
 
     overflow:hidden;
     font-size: 2.5rem;
+    flex:1 1 auto;
+    margin-right:2rem;
     
 
     &__title{
@@ -17,8 +19,8 @@
         border:none;
         outline:none;
         font-family:Roboto, sans-serif;
-        flex:1 1 auto;
-        margin-right:2rem;
+        width:100%;
+        max-width:50rem;
 
         &::selection{
             background:$gray-medium;

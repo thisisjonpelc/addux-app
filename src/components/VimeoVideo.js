@@ -12,7 +12,7 @@ const VimeoVideo = ({id, setRef}) => {
                 position:'relative'
                 
         }}>
-            <iframe ref={refValue} id={id} src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`} 
+            <iframe ref={setRef} id={id} src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`} 
                     style={{
                         position: 'absolute',
                         top:0,

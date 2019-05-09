@@ -1,15 +1,21 @@
 import React from "react";
 import {connect} from 'react-redux';
-import $ from 'jquery';
 
 import AppOverlay from './AppOverlay';
 import VimeoVideo from './VimeoVideo';
 
 import {labels} from "../constants/constants";
+import {stopVideo} from './../utils/utils';
 
 class ColumnHeader extends React.Component{
     constructor(props){
         super(props);
+
+        this.videoRef = null;
+
+        this.setVideoRef = (element) => {
+            this.videoRef = element;
+        }
 
         this.state = {
             showVideo: false
@@ -27,16 +33,7 @@ class ColumnHeader extends React.Component{
     handleCloseModal = () => {
         const videoId = this.props.walkthrough[`${this.props.category}_video`];
 
-        var $frame = $(`iframe#${videoId}`);
-
-        // saves the current iframe source
-        var vidsrc = $frame.attr('src');
-
-        // sets the source to nothing, stopping the video
-        $frame.attr('src',''); 
-
-        // sets it back to the correct link so that it reloads immediately on the next window open
-        $frame.attr('src', vidsrc);
+        stopVideo(this.videoRef);
 
         this.setState({
             showVideo:false
@@ -59,7 +56,7 @@ class ColumnHeader extends React.Component{
                     isOpen={this.state.showVideo}
                     onRequestClose={this.handleCloseModal}
                 >
-                    <VimeoVideo id={videoId} />
+                    <VimeoVideo setRef={this.setVideoRef} id={videoId} />
                 </AppOverlay>)}
             </div>
         );

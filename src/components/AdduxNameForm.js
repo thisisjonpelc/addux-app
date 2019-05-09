@@ -12,7 +12,7 @@ class AdduxNameForm extends React.Component{
         super(props);
 
         this.state ={
-            name : props.addux ? props.addux.name : "",
+            name : "",
             error: '',
             creating: false
         }
