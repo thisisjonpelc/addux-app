@@ -2,7 +2,7 @@ import React from 'react';
 import {connect} from 'react-redux';
 import axios from 'axios';
 
-import {setWalkthrough} from './../actions/walkthrough';
+import {startSetWalkthrough} from './../actions/walkthrough';
 
 class AdminPage extends React.Component {
     constructor(props) {
@@ -122,43 +122,40 @@ class AdminPage extends React.Component {
                 error: 'All fields are required'
             }));
         }
-        else{        
-            axios({
-                method: 'post',
-                url: '/walkthrough',
-                headers: {
-                    'x-auth': this.props.token
-                },
-                data: {
-                    objective_prompt: this.state.objective_prompt,
-                    objective_video: this.state.objective_video,
-                    goals_prompt: this.state.goals_prompt,
-                    goals_video: this.state.goals_video,
-                    projects_prompt: this.state.projects_prompt,
-                    projects_video: this.state.projects_video,
-                    timelines_prompt: this.state.timelines_prompt,
-                    timelines_video: this.state.timelines_video,
-                    projectOwner_prompt: this.state.projectOwner_prompt,
-                    projectOwner_video: this.state.projectOwner_video, 
-                    resources_prompt: this.state.resources_prompt,
-                    resources_video: this.state.resources_video,
-                    progress_prompt: this.state.progress_prompt,
-                    progress_video: this.state.progress_video
-                }
-            })
-            .then((response) => {
-                this.setState(() => ({
-                    error: '',
-                    success: 'Walkthrough updated succesfully!'
-                }));
-                this.props.setWalkthrough(response.data);
-            })
-            .catch((e) => {
-                this.setState(() => ({
-                    success: '',
-                    error: e.message
-                }));
-            });
+        else{
+            
+            const newWalkthroughData =  {
+                objective_prompt: this.state.objective_prompt,
+                objective_video: this.state.objective_video,
+                goals_prompt: this.state.goals_prompt,
+                goals_video: this.state.goals_video,
+                projects_prompt: this.state.projects_prompt,
+                projects_video: this.state.projects_video,
+                timelines_prompt: this.state.timelines_prompt,
+                timelines_video: this.state.timelines_video,
+                projectOwner_prompt: this.state.projectOwner_prompt,
+                projectOwner_video: this.state.projectOwner_video, 
+                resources_prompt: this.state.resources_prompt,
+                resources_video: this.state.resources_video,
+                progress_prompt: this.state.progress_prompt,
+                progress_video: this.state.progress_video
+            };
+
+            this.props.startSetWalkthrough(newWalkthroughData)
+                .then(() => {
+                    this.setState(() => ({
+                        error: '',
+                        success: 'Walkthrough updated succesfully!'
+                    }));
+                })
+                .catch(() => {
+                    console.log('Error in Admin Page');
+                    
+                    this.setState(() => ({
+                        success: '',
+                        error: e.message
+                    }));
+                });
         }
         
     }
@@ -239,10 +236,4 @@ const mapStateToProps = (state) => {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        setWalkthrough: (walkthrough) => dispatch(setWalkthrough(walkthrough))
-    };
-};
-
-export default connect(mapStateToProps, mapDispatchToProps)(AdminPage);
+export default connect(mapStateToProps, {startSetWalkthrough})(AdminPage);
