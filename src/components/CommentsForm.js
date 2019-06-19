@@ -5,8 +5,6 @@ import axios from "axios";
 
 import {editComments} from "./../actions/addux";
 
-import CommentTextArea from './CommentTextArea';
-
 class CommentsForm extends React.Component{
 
     constructor(props){

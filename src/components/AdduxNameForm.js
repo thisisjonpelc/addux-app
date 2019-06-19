@@ -1,11 +1,7 @@
 import React from 'react';
 import {connect} from 'react-redux';
-import axios from 'axios';
-
-import {history} from './../routers/AppRouter';
 
 import {startAddAddux} from './../actions/addux';
-import {logout} from './../actions/auth';
 
 class AdduxNameForm extends React.Component{
     constructor(props){
@@ -61,7 +57,7 @@ class AdduxNameForm extends React.Component{
                     <div className='form__form-group'>
                         <input className='form__input' type='text' value={this.state.name} onChange={this.onNameChange} placeholder='Name your new addux'/>
                     </div>
-                    <button className='btn btn--full-width' disabled={this.state.creating}>{this.state.creating ? (<img className='btn__loading' src='img/loading.gif'/>): (this.props.buttonText)}</button>
+                    <button className='btn btn--full-width' disabled={this.state.creating}>{this.state.creating ? (<img alt='loading spinner' className='btn__loading' src='img/loading.gif'/>): (this.props.buttonText)}</button>
                     {this.state.error && <p className='alert alert--failure'>{this.state.error}</p>}
                 </form>
             </div>

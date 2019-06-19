@@ -74,7 +74,7 @@ class LoginPage extends React.Component {
                 
 
                 <div className='home-page__form'>
-                    <img className='home-page__logo' src='/img/addux-logo.png' />
+                    <img alt='addux logo' className='home-page__logo' src='/img/addux-logo.png' />
                     {this.state.error && <p className='alert alert--failure'>{this.state.error}</p>}
                     <form className='form' onSubmit={this.onSubmit}>
                         <div className='form__form-group'>

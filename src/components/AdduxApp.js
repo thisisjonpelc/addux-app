@@ -34,7 +34,6 @@ class AdduxApp extends React.Component {
             dataStatus: "WAITING",
             shareActive: false,
             adminActive: false,
-            notesActive: false,
             userActive: false,
             createModal: false,
             tutorialActive: false,

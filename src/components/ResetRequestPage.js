@@ -46,7 +46,7 @@ class ResetRequestPage extends React.Component {
         return (
             <div className='center-form-page'>
                 <div className='center-form-page__form'>
-                    <img className='center-form-page__logo' src='/img/addux-logo.png' />
+                    <img alt='addux logo' className='center-form-page__logo' src='/img/addux-logo.png' />
                     {this.state.error && <p className='alert alert--failure'>{this.state.error}</p>}
                     {this.state.result && <p className='alert alert--success'>{this.state.result}</p>}
                     <form className='form' onSubmit={this.onEmailSubmit}>

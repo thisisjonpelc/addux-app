@@ -21,7 +21,7 @@ export const startUpdateUser = (id, updates) => async (dispatch, getState) => {
     const { token } = getState().auth;
 
     try {
-        const reponse = axios.patch(`/users/${id}`, updates, { headers: { 'x-auth': token } });
+        axios.patch(`/users/${id}`, updates, { headers: { 'x-auth': token } });
         dispatch(updateUser(updates));
     }
     catch (err) {

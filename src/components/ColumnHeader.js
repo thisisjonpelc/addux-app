@@ -31,7 +31,6 @@ class ColumnHeader extends React.Component{
     }
 
     handleCloseModal = () => {
-        const videoId = this.props.walkthrough[`${this.props.category}_video`];
 
         stopVideo(this.videoRef);
 

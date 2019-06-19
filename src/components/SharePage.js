@@ -104,7 +104,7 @@ class SharePage extends React.Component{
                     onClick={this.onPdfClick} 
                     disabled={this.state.creatingPdf}
                 >
-                    {this.state.creatingPdf ? (<img className='btn__loading' src='img/loading.gif' />) : ('Get My PDF')}
+                    {this.state.creatingPdf ? (<img className='btn__loading' src='img/loading.gif' alt='loading icon' />) : ('Get My PDF')}
                 </button>
             </div>
         );

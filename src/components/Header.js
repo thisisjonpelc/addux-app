@@ -41,7 +41,7 @@ class Header extends React.Component {
     render() {
         return (
             <header className="header">
-                <img src="img/addux-logo.png" className="logo" />
+                <img alt='addux logo' src="img/addux-logo.png" className="logo" />
 
                 {!this.props.sharePage
                     &&

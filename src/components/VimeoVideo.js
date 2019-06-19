@@ -2,8 +2,6 @@ import React from 'react';
 
 const VimeoVideo = ({id, setRef}) => {
     
-    const refValue = setRef ? (element) => setRef(element) : null;
-    
     return (
 
         <div className='vimeo-video'>
@@ -12,7 +10,10 @@ const VimeoVideo = ({id, setRef}) => {
                 position:'relative'
                 
         }}>
-            <iframe ref={setRef} id={id} src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`} 
+            <iframe ref={setRef} 
+                    id={id} 
+                    src={`https://player.vimeo.com/video/${id}?title=0&byline=0&portrait=0`} 
+                    title={id}
                     style={{
                         position: 'absolute',
                         top:0,

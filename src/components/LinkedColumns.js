@@ -51,6 +51,8 @@ class LinkedColumns extends React.Component {
             this.columnRefs[4] = element;
           }
           break;
+        default:
+          break;
       }
     }
 

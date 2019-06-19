@@ -273,11 +273,11 @@ class SignUpForm extends React.Component {
                 <div className='signup-page__agreement'>
                     <input  className='signup-page__checkbox' onChange={this.onCheckChange} type='checkbox' checked={this.state.checked} />
                     <label>
-                        I agree to the addux Online <a className='app-link app-link--bold' href='https://www.cypressresources.com/terms' target='_blank'>Terms and Conditions</a> and <a className='app-link app-link--bold' href='https://www.cypressresources.com/privacy-policy' target='_blank'>Privacy Policy</a>
+                        I agree to the addux Online <a className='app-link app-link--bold' href='https://www.cypressresources.com/terms' target='_blank' rel='noopener noreferrer'>Terms and Conditions</a> and <a className='app-link app-link--bold' href='https://www.cypressresources.com/privacy-policy' target='_blank' rel='noopener noreferrer'>Privacy Policy</a>
                     </label>
                 </div>
                 {this.state.error && <p className='alert alert--failure'>{this.state.error}</p>}
-                <button className='btn btn--full-width' disabled={this.state.waiting}>{this.state.waiting ? (<img className='btn__loading' src='/img/loading.gif' />) : ('Sign Up')}</button>
+                <button className='btn btn--full-width' disabled={this.state.waiting}>{this.state.waiting ? (<img alt='loading spinner' className='btn__loading' src='/img/loading.gif' />) : ('Sign Up')}</button>
                 <Link className='app-link' to='/'>Already have an account?</Link>
             </form>
         );

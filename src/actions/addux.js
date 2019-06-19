@@ -1,17 +1,8 @@
 import axios from 'axios';
 
-import { SET_ADDUXES, EDIT_ADDUX, EDIT_COMMENT, ADD_ADDUX, DELETE_ADDUX } from './types';
+import { EDIT_ADDUX, EDIT_COMMENT, ADD_ADDUX, DELETE_ADDUX } from './types';
 import {logout} from './auth';
 import { history } from './../routers/AppRouter';
-
-
-// export const setAdduxes = (adduxes) => {
-
-//     return {
-//         type: SET_ADDUXES,
-//         adduxes
-//     };
-// };
 
 export const editAddux = (activeAddux, updates) => {
     return {
@@ -22,11 +13,7 @@ export const editAddux = (activeAddux, updates) => {
 };
 
 export const startEditAddux = (activeAddux, updates) => async (dispatch, getState) => {
-    const { token } = getState().auth;
-
-    try{
-        const response = await axios.patch(`/addux/${activeAddux}`, updates, {headers:{'x-auth':token}});
-    
+    try{    
         dispatch(editAddux(activeAddux, updates));
     }
     catch(err){
@@ -96,7 +83,6 @@ export const startDeleteAddux = (id) => async (dispatch, getState) => {
     
     const state = getState();
     
-    const {token} = state.auth;
     const {active, addux} = state;
     
     let newActive = null;
@@ -112,7 +98,6 @@ export const startDeleteAddux = (id) => async (dispatch, getState) => {
     }
 
     try{
-        const response = await axios.delete(`/addux/${id}`, {headers: {'x-auth': token}})    
         dispatch(deleteAddux(id, newActive));
     }
     catch(err){

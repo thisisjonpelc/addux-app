@@ -12,6 +12,9 @@ const activeReducer = (state = null, action) => {
             if(action.newActive){
                 return action.newActive
             }
+            else{
+                return state;
+            }
         default:
             return state;
     }

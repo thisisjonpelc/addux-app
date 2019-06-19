@@ -1,7 +1,6 @@
 import React from 'react';
 import {Link} from 'react-router-dom';
 
-import {history} from '../routers/AppRouter';
 import SalesHeader from './SalesHeader';
 
 class SalesPage extends React.Component{
@@ -40,9 +39,9 @@ class SalesPage extends React.Component{
                             
 
                             <h1 className='banner__header'>
-                                <img src='/img/addux-logo.png'/> Online
+                                <img alt='addux logo' src='/img/addux-logo.png'/> Online
                             </h1>
-                            <img className='banner__image' src='/img/banner-image.png' />
+                            <img alt='addux app on various mediums' className='banner__image' src='/img/banner-image.png' />
                             <div className='banner__accent'>
 
                             </div>

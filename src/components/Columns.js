@@ -4,9 +4,7 @@ import { connect } from 'react-redux';
 import Column from "./Column";
 import EmptyPage from './EmptyPage';
 import ScrollArrow from './ScrollArrow';
-import ColumnHeader from './ColumnHeader';
-import CommentsForm from './CommentsForm';
-import Accordion from './Accordion';
+//import CommentsForm from './CommentsForm';
 import LinkedColumns from './LinkedColumns';
 
 class Columns extends React.Component {

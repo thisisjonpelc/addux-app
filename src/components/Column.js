@@ -2,7 +2,6 @@ import React from "react";
 
 import ColumnHeader from "./ColumnHeader";
 import ColumnContent from "./ColumnContent";
-import { PromiseProvider } from "mongoose";
 
     const Column = ({category, sharePage, showComments, setRef, accordionOpen, linked, onCheckChange, onScroll}) => {
         
