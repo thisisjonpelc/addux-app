@@ -22,9 +22,10 @@ class ColumnContent extends React.Component{
     render() {
         const prompt = this.props.walkthrough[`${this.props.category}_prompt`];
         const refValue = this.props.setRef ? (element) => this.props.setRef('column', this.props.category, element) : null;
+        const scrollFunction = this.props.onScroll ? (e) => this.props.onScroll('column', e.target) : null;
 
         return (
-            <div ref={refValue} onScroll={(e) => this.props.onScroll('column', e.target)} className="column__content">
+            <div ref={refValue} onScroll={scrollFunction} className="column__content">
                 <p className="column__question">
                     {prompt}
                 </p>

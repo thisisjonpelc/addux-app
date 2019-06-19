@@ -21,7 +21,7 @@ const AppRouter = () => {
             <StripeProvider apiKey='pk_test_qgZDzGYlsNzbuloTnIPK3KEc'>
                 <Router history={history}>
                     <Switch>
-                        <Route path="/" component={AdduxWrapper} exact={true} />
+                        <Route path="/" component={AdduxWrapper} exact={true}/>
                         <Route path='/share/:id' render={(props) => <AdduxApp {...props} sharePage={true} showComments={false} />} />
                         <Route path='/comment/:id' render={(props) => <AdduxApp {...props} sharePage={true} showComments={true} />} />
                         <PrivateRoute path="/subscribe" component={SubscribePage} />

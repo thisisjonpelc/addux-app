@@ -81,17 +81,6 @@ class AdduxApp extends React.Component {
 
             stopVideo(this.tutorialRef);
 
-            // // saves the current iframe source
-            // var vidsrc = this.tutorialRef.getAttribute('src');//$frame.attr('src');
-
-            // // sets the source to nothing, stopping the video
-            // //$frame.attr('src', '');
-            // this.tutorialRef.setAttribute('src', '');
-
-
-            // // sets it back to the correct link so that it reloads immediately on the next window open
-            // //$frame.attr('src', vidsrc);
-            // this.tutorialRef.setAttribute('src', vidsrc);
         }
 
         this.setState((prevState) => ({

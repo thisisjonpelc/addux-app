@@ -24,28 +24,28 @@ class SubscribePage extends React.Component{
 
     componentDidMount(){
 
-        if(this.props.subscribed === null){
+        // if(this.props.subscribed === null){
 
-            axios({
-                method:'get',
-                url:'/users/me',
-                headers: {
-                    'x-auth': this.props.auth.token
-                }
-            })
-            .then((user) => {
-                this.props.subscribe();
-            })
-            .catch((e) => {
+        //     axios({
+        //         method:'get',
+        //         url:'/users/me',
+        //         headers: {
+        //             'x-auth': this.props.auth.token
+        //         }
+        //     })
+        //     .then((user) => {
+        //         this.props.subscribe();
+        //     })
+        //     .catch((e) => {
 
-                if(e.response.status === 402){
-                    this.props.unsubscribe();
-                }
-                else{
+        //         if(e.response.status === 402){
+        //             this.props.unsubscribe();
+        //         }
+        //         else{
 
-                }
-            });
-        }
+        //         }
+        //     });
+        // }
     }
 
     render() {
@@ -92,17 +92,8 @@ class SubscribePage extends React.Component{
 
 const mapStateToProps = (state) => {
     return {
-        auth: state.auth,
-        subscribed: state.subscription.subscribed
+        auth: state.auth
     };
 }
 
-// const mapDispatchToProps = (dispatch) => {
-//     return {
-//         subscribe: () => dispatch(subscribe()),
-//         unsubscribe: () => dispatch(unsubscribe()),
-//         logout: () => dispatch(logout())
-//     }
-// }
-
-export default connect(mapStateToProps, {})(SubscribePage);
+export default connect(mapStateToProps)(SubscribePage);
