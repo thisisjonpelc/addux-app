@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-import { login} from '../actions/auth';
+import { login, startLogin} from '../actions/auth';
 
 import { history } from '../routers/AppRouter';
 
@@ -38,23 +38,9 @@ class LoginPage extends React.Component {
         }
         else {
             //this.setState(() => ({ error: '' }));
+            console.log('Logging in!');
 
-            axios.post('/users/login', {
-                email: this.state.email,
-                password: this.state.password
-            })
-                .then((response) => {
-                    this.props.login(
-                        {
-                            ...response.data,
-                            token: response.headers['x-auth']
-                        }
-                    );
-                    history.push("/");
-                })
-                .catch((err) => {
-                    this.setState(() => ({ error: "Could not find a user with those credentials" }));
-                });
+            this.props.startLogin(this.state.email, this.state.password);
         }
     }
 
@@ -108,4 +94,4 @@ class LoginPage extends React.Component {
     }
 }
 
-export default connect(null, {login})(LoginPage);
+export default connect(null, {login, startLogin})(LoginPage);

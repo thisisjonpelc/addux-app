@@ -8,6 +8,32 @@ export const login = (user) => ({
     user
 });
 
+export const startLogin = (email, password) => async (dispatch) => {
+
+    console.log('IN START LOGIN');
+
+    try {
+        const response = await axios.post(`/users/login`, {
+            email,
+            password
+        });
+
+        dispatch(
+            login(
+                {
+                    ...response.data,
+                    token: response.headers['x-auth']
+                }
+            )
+        );
+    }
+    catch (err) {
+        console.log('LOGIN FAIL');
+        console.log(err.response.status);
+        console.log(err);
+    }
+}
+
 export const logout = () => ({
     type: LOGOUT
 });
@@ -31,7 +57,6 @@ export const startUpdateUser = (id, updates) => async (dispatch, getState) => {
         }
         else if (err.response.status === 401) {
             dispatch(logout());
-            history.push('/login');
         }
         else {
             //TODO: Error notification
